@@ -2,7 +2,7 @@
 
 from typing import TypedDict
 
-from google.adk.agents import Agent
+from google.adk.agents import Agent, SequentialAgent
 from google.adk.apps import App
 from google.adk.models import Gemini
 
@@ -161,34 +161,39 @@ def read_sandbox_state() -> dict:
 
 
 # ---------------------------------------------------------------------
-# SPECIALIST AGENTS
+# DETERMINISTIC SOVEREIGNOPS WORKFLOW
 # ---------------------------------------------------------------------
+
 
 triage_agent = Agent(
     name="triage_agent",
     model=Gemini(model=MODEL),
-    mode="single_turn",
-    description=(
-        "Classifies telecom and enterprise incidents by severity, "
-        "scope, business impact, urgency, and affected services."
-    ),
+    description="Observes and triages a private 5G incident.",
+    tools=[get_incident_telemetry],
+    output_key="triage_result",
     instruction="""
 You are the SovereignOps Triage Agent.
 
-Analyze the supplied private 5G incident telemetry.
+For incident INC-5G-001, you MUST first call get_incident_telemetry.
 
-Determine:
+Analyze only the retrieved evidence.
 
-1. severity
-2. affected services
-3. affected infrastructure
-4. customer/business impact
-5. whether this appears operational, security-related, or both
-6. immediate containment priorities
+Return a structured report containing:
 
-Do not invent telemetry.
+INCIDENT ID
+SITE
+SEVERITY
+RAW TELEMETRY
+AFFECTED SERVICES
+AFFECTED INFRASTRUCTURE
+BUSINESS IMPACT
+SECURITY INDICATORS
+IMMEDIATE PRIORITIES
 
-Return a concise structured triage assessment for the orchestrator.
+Include the important numeric telemetry because subsequent agents
+will use your output as evidence.
+
+Do not invent data.
 """,
 )
 
@@ -196,37 +201,30 @@ Return a concise structured triage assessment for the orchestrator.
 investigation_agent = Agent(
     name="investigation_agent",
     model=Gemini(model=MODEL),
-    mode="single_turn",
-    description=(
-        "Investigates telecom infrastructure telemetry and identifies "
-        "probable technical root causes."
-    ),
+    description="Determines the technical and security root cause.",
+    output_key="investigation_result",
     instruction="""
 You are the SovereignOps Investigation Agent.
 
-Analyze all incident evidence supplied by the orchestrator.
+The Triage Agent produced this evidence:
 
-Correlate:
+--- TRIAGE RESULT ---
+{triage_result}
+--- END TRIAGE RESULT ---
 
-- latency
-- packet loss
-- authentication failures
-- core network functions
-- UPF state
-- recent configuration changes
-- suspicious traffic indicators
+Determine:
 
-Determine the most probable root cause or combination of causes.
+1. primary root-cause hypothesis
+2. supporting evidence
+3. confidence level
+4. alternative hypotheses
+5. relationship between configuration changes and degradation
+6. significance of suspicious authentication activity
+7. recommended remediation actions
 
-Distinguish facts from hypotheses.
+Clearly distinguish facts from hypotheses.
 
-Give the orchestrator:
-
-- primary root-cause hypothesis
-- supporting evidence
-- confidence level
-- alternative hypotheses
-- recommended technical actions
+Do not execute remediation.
 """,
 )
 
@@ -234,48 +232,51 @@ Give the orchestrator:
 security_policy_agent = Agent(
     name="security_policy_agent",
     model=Gemini(model=MODEL),
-    mode="single_turn",
-    description=(
-        "Evaluates proposed incident responses against security, "
-        "zero-trust, sovereignty, and operational safety policies."
-    ),
+    description="Applies the mandatory SovereignOps security policy gate.",
+    output_key="policy_result",
     instruction="""
 You are the SovereignOps Security and Policy Agent.
 
-Evaluate the incident and proposed response.
+TRIAGE:
+{triage_result}
 
-Apply these policies:
+INVESTIGATION:
+{investigation_result}
 
-POLICY P1:
+Apply these mandatory policies:
+
+P1:
 Suspicious sources exhibiting repeated authentication failures may
 be isolated.
 
-POLICY P2:
+P2:
 A recently deployed network policy may be rolled back when strong
 evidence links it to service degradation.
 
-POLICY P3:
-Only sandbox actions are authorized in this prototype.
+P3:
+Only synthetic sandbox actions are authorized in this prototype.
 
-POLICY P4:
-Never expose credentials, secrets, private subscriber information,
+P4:
+Never expose credentials, secrets, subscriber private information,
 or sensitive payload data.
 
-POLICY P5:
+P5:
 Security protection takes precedence over performance optimization.
 
-POLICY P6:
+P6:
 Every executed action must be auditable.
 
-Determine:
+Evaluate the investigation recommendations.
 
-- which remediation actions are authorized
-- which are prohibited
-- security justification
-- sovereignty/compliance implications
-- whether human authorization would be required in production
+Return:
 
-Return an explicit policy decision to the orchestrator.
+AUTHORIZED ACTIONS
+PROHIBITED ACTIONS
+SECURITY JUSTIFICATION
+SOVEREIGNTY / COMPLIANCE ASSESSMENT
+PRODUCTION HUMAN-APPROVAL REQUIREMENTS
+
+Only authorize actions justified by the available evidence.
 """,
 )
 
@@ -283,42 +284,45 @@ Return an explicit policy decision to the orchestrator.
 remediation_agent = Agent(
     name="remediation_agent",
     model=Gemini(model=MODEL),
-    mode="single_turn",
-    description=(
-        "Executes authorized corrective actions against the synthetic "
-        "private 5G sandbox."
-    ),
+    description="Executes policy-authorized remediation in the sandbox.",
     tools=[execute_sandbox_remediation],
+    output_key="remediation_result",
     instruction="""
 You are the SovereignOps Remediation Agent.
 
-You receive:
+INCIDENT TRIAGE:
+{triage_result}
 
-- incident evidence
-- investigation findings
-- security-policy authorization
+ROOT-CAUSE ANALYSIS:
+{investigation_result}
 
-You must act, not merely recommend.
+MANDATORY POLICY DECISION:
+{policy_result}
 
-Use execute_sandbox_remediation for every authorized action required
-to resolve the incident.
+Execute the actions explicitly authorized by the Security and Policy
+Agent.
 
-Available sandbox actions are:
+Available sandbox actions:
 
-rollback_upf_policy
-isolate_suspicious_source
-restart_upf_service
+- rollback_upf_policy
+- isolate_suspicious_source
+- restart_upf_service
 
-Do NOT attempt any action that the policy assessment has not authorized.
+You MUST call execute_sandbox_remediation for required authorized actions.
 
-This prototype controls synthetic infrastructure only.
+Do not merely recommend an action.
+
+Do not execute prohibited or unauthorized actions.
+
+All actions affect synthetic infrastructure only.
 
 Return:
 
-- actions attempted
-- tool execution results
-- actions denied or skipped
-- expected recovery state
+ACTIONS EXECUTED
+TOOL RESULTS
+ACTIONS SKIPPED
+REASON FOR EACH ACTION
+EXPECTED RECOVERY STATE
 """,
 )
 
@@ -326,100 +330,36 @@ Return:
 verification_agent = Agent(
     name="verification_agent",
     model=Gemini(model=MODEL),
-    mode="single_turn",
-    description=(
-        "Independently verifies whether remediation actually restored "
-        "the private 5G service."
-    ),
+    description="Independently verifies recovery and generates the audit report.",
     tools=[read_sandbox_state],
+    output_key="verification_result",
     instruction="""
-You are the SovereignOps Verification Agent.
+You are the SovereignOps Independent Verification and Audit Agent.
+
+TRIAGE:
+{triage_result}
+
+INVESTIGATION:
+{investigation_result}
+
+POLICY DECISION:
+{policy_result}
+
+REMEDIATION:
+{remediation_result}
+
+You MUST call read_sandbox_state.
+
+The incident may be declared RESOLVED only when ALL criteria pass:
+
+- latency <= 30 ms
+- packet drop <= 1.0 percent
+- authentication failures <= 1.0 percent
+- UPF status = HEALTHY
 
 Never assume remediation succeeded.
 
-Call read_sandbox_state.
-
-Verify these recovery objectives:
-
-latency <= 30 ms
-packet drop <= 1 percent
-authentication failures <= 1 percent
-UPF status = HEALTHY
-
-Return either:
-
-VERIFICATION PASSED
-
-or
-
-VERIFICATION FAILED
-
-Include the measurements supporting your decision.
-
-Only declare the incident resolved when all required thresholds pass.
-""",
-)
-
-
-# ---------------------------------------------------------------------
-# ORCHESTRATOR
-# ---------------------------------------------------------------------
-
-root_agent = Agent(
-    name="sovereignops_orchestrator",
-    model=Gemini(model=MODEL),
-    description=(
-        "Coordinates autonomous enterprise and private 5G incident "
-        "investigation, policy analysis, remediation, and verification."
-    ),
-    tools=[get_incident_telemetry],
-    sub_agents=[
-        triage_agent,
-        investigation_agent,
-        security_policy_agent,
-        remediation_agent,
-        verification_agent,
-    ],
-    instruction="""
-You are SovereignOps AI, the autonomous incident-response orchestrator.
-
-Your objective is to investigate and resolve enterprise infrastructure
-incidents safely.
-
-For incident INC-5G-001 you MUST follow this lifecycle:
-
-STEP 1 - OBSERVE
-Call get_incident_telemetry.
-
-STEP 2 - TRIAGE
-Delegate the telemetry to the Triage Agent.
-
-STEP 3 - INVESTIGATE
-Delegate the telemetry and triage findings to the Investigation Agent.
-
-STEP 4 - POLICY GATE
-Delegate the evidence, investigation results, and proposed actions to
-the Security and Policy Agent.
-
-No remediation may occur before this policy gate.
-
-STEP 5 - REMEDIATE
-Delegate ONLY authorized actions to the Remediation Agent.
-
-The remediation agent must execute actual sandbox tools rather than
-merely describe recommendations.
-
-STEP 6 - VERIFY
-Delegate to the Verification Agent.
-
-The verification agent must inspect the resulting sandbox state.
-
-If verification fails, analyze the remaining problem and perform one
-additional authorized remediation cycle.
-
-STEP 7 - AUDIT
-
-Produce a final report containing:
+Produce the final SovereignOps incident report using exactly these sections:
 
 INCIDENT
 SEVERITY
@@ -431,12 +371,37 @@ VERIFICATION RESULTS
 FINAL STATUS
 AUDIT TRAIL
 
-Do not claim the incident is resolved unless the Verification Agent
-has confirmed recovery.
+FINAL STATUS must be either:
 
-Always clearly distinguish simulated sandbox actions from real
-production actions.
+RESOLVED
+
+or
+
+NOT RESOLVED
+
+Clearly state that all remediation occurred in a synthetic sandbox
+and not against production infrastructure.
 """,
+)
+
+
+# ---------------------------------------------------------------------
+# WORKFLOW ORCHESTRATOR
+# ---------------------------------------------------------------------
+
+root_agent = SequentialAgent(
+    name="sovereignops_workflow",
+    description=(
+        "Deterministic governed incident-response workflow for enterprise "
+        "and private 5G infrastructure."
+    ),
+    sub_agents=[
+        triage_agent,
+        investigation_agent,
+        security_policy_agent,
+        remediation_agent,
+        verification_agent,
+    ],
 )
 
 
