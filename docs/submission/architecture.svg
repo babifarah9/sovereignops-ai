@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">SovereignOps AI architecture</title>
+  <desc id="desc">A Pub/Sub event enters an authenticated Cloud Run service, passes a Firestore idempotency claim, runs through five deterministic Google ADK stages, and writes a durable Firestore audit trail. Failed deliveries go to a dead-letter topic and execution telemetry goes to Cloud Trace.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071526"/>
+      <stop offset="1" stop-color="#102b46"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1a73e8"/>
+      <stop offset="1" stop-color="#00bfa5"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7dd3fc"/>
+    </marker>
+    <style>
+      .title { font: 700 42px Inter, Arial, sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 19px Inter, Arial, sans-serif; fill: #b8c8dc; }
+      .box-title { font: 700 19px Inter, Arial, sans-serif; fill: #f8fafc; }
+      .box-copy { font: 400 15px Inter, Arial, sans-serif; fill: #cbd5e1; }
+      .step { font: 700 16px Inter, Arial, sans-serif; fill: #e8f3ff; }
+      .label { font: 600 14px Inter, Arial, sans-serif; fill: #9fddff; }
+      .footer { font: 500 14px Inter, Arial, sans-serif; fill: #9fb1c6; }
+      .panel { fill: #10283f; stroke: #315675; stroke-width: 2; }
+      .cloud { fill: #102f49; stroke: #4285f4; stroke-width: 2.5; }
+      .data { fill: #123a40; stroke: #00bfa5; stroke-width: 2.5; }
+      .risk { fill: #3a2731; stroke: #f59e0b; stroke-width: 2.5; }
+      .flow { fill: none; stroke: #7dd3fc; stroke-width: 3; marker-end: url(#arrow); }
+      .dash { fill: none; stroke: #7dd3fc; stroke-width: 2.5; stroke-dasharray: 9 8; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1460" cy="80" r="260" fill="#1a73e8" opacity="0.08"/>
+  <circle cx="120" cy="840" r="230" fill="#00bfa5" opacity="0.06"/>
+
+  <text x="80" y="78" class="title">SovereignOps AI</text>
+  <text x="80" y="112" class="subtitle">Deterministic, auditable incident response on Google Cloud</text>
+  <rect x="80" y="136" width="1440" height="5" rx="2.5" fill="url(#hero)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="80" y="196" width="230" height="116" rx="18" class="panel"/>
+    <text x="195" y="238" text-anchor="middle" class="box-title">Synthetic 5G monitor</text>
+    <text x="195" y="269" text-anchor="middle" class="box-copy">Incident telemetry</text>
+    <text x="195" y="292" text-anchor="middle" class="box-copy">with stable event ID</text>
+
+    <rect x="380" y="196" width="230" height="116" rx="18" class="cloud"/>
+    <text x="495" y="238" text-anchor="middle" class="box-title">Cloud Pub/Sub</text>
+    <text x="495" y="269" text-anchor="middle" class="box-copy">Authenticated push</text>
+    <text x="495" y="292" text-anchor="middle" class="box-copy">retry with backoff</text>
+
+    <rect x="680" y="196" width="250" height="116" rx="18" class="cloud"/>
+    <text x="805" y="238" text-anchor="middle" class="box-title">Cloud Run</text>
+    <text x="805" y="269" text-anchor="middle" class="box-copy">Protected trigger endpoint</text>
+    <text x="805" y="292" text-anchor="middle" class="box-copy">scale 0–2 instances</text>
+
+    <rect x="1000" y="196" width="250" height="116" rx="18" class="data"/>
+    <text x="1125" y="238" text-anchor="middle" class="box-title">Firestore claim</text>
+    <text x="1125" y="269" text-anchor="middle" class="box-copy">Transactional idempotency</text>
+    <text x="1125" y="292" text-anchor="middle" class="box-copy">suppresses duplicate work</text>
+
+    <rect x="1310" y="196" width="210" height="116" rx="18" class="risk"/>
+    <text x="1415" y="238" text-anchor="middle" class="box-title">Duplicate?</text>
+    <text x="1415" y="269" text-anchor="middle" class="box-copy">Acknowledge safely</text>
+    <text x="1415" y="292" text-anchor="middle" class="box-copy">no Gemini call</text>
+  </g>
+
+  <path d="M310 254 H380" class="flow"/>
+  <path d="M610 254 H680" class="flow"/>
+  <path d="M930 254 H1000" class="flow"/>
+  <path d="M1250 254 H1310" class="flow"/>
+  <text x="645" y="237" text-anchor="middle" class="label">OIDC</text>
+
+  <rect x="250" y="390" width="1100" height="238" rx="24" fill="#0b2034" stroke="#446886" stroke-width="2"/>
+  <text x="800" y="430" text-anchor="middle" class="box-title">Google ADK SequentialAgent — fixed governance order</text>
+
+  <g filter="url(#shadow)">
+    <rect x="292" y="474" width="170" height="92" rx="16" class="panel"/>
+    <text x="377" y="511" text-anchor="middle" class="step">1 · TRIAGE</text>
+    <text x="377" y="540" text-anchor="middle" class="box-copy">severity + scope</text>
+
+    <rect x="503" y="474" width="170" height="92" rx="16" class="panel"/>
+    <text x="588" y="511" text-anchor="middle" class="step">2 · INVESTIGATE</text>
+    <text x="588" y="540" text-anchor="middle" class="box-copy">evidence + cause</text>
+
+    <rect x="714" y="474" width="170" height="92" rx="16" class="risk"/>
+    <text x="799" y="511" text-anchor="middle" class="step">3 · POLICY</text>
+    <text x="799" y="540" text-anchor="middle" class="box-copy">allow or hold</text>
+
+    <rect x="925" y="474" width="170" height="92" rx="16" class="panel"/>
+    <text x="1010" y="511" text-anchor="middle" class="step">4 · REMEDIATE</text>
+    <text x="1010" y="540" text-anchor="middle" class="box-copy">sandboxed tools</text>
+
+    <rect x="1136" y="474" width="170" height="92" rx="16" class="data"/>
+    <text x="1221" y="511" text-anchor="middle" class="step">5 · VERIFY</text>
+    <text x="1221" y="540" text-anchor="middle" class="box-copy">close only if safe</text>
+  </g>
+
+  <path d="M462 520 H503" class="flow"/>
+  <path d="M673 520 H714" class="flow"/>
+  <path d="M884 520 H925" class="flow"/>
+  <path d="M1095 520 H1136" class="flow"/>
+  <path d="M1125 312 V348 H800 V390" class="flow"/>
+  <text x="976" y="340" class="label">new event claim</text>
+
+  <g filter="url(#shadow)">
+    <rect x="250" y="704" width="320" height="112" rx="18" class="data"/>
+    <text x="410" y="744" text-anchor="middle" class="box-title">Firestore audit trail</text>
+    <text x="410" y="775" text-anchor="middle" class="box-copy">incident state + immutable events</text>
+    <text x="410" y="798" text-anchor="middle" class="box-copy">event receipt marked complete</text>
+
+    <rect x="640" y="704" width="320" height="112" rx="18" class="cloud"/>
+    <text x="800" y="744" text-anchor="middle" class="box-title">Cloud Trace + Logging</text>
+    <text x="800" y="775" text-anchor="middle" class="box-copy">stage hierarchy and operations</text>
+    <text x="800" y="798" text-anchor="middle" class="box-copy">message content capture disabled</text>
+
+    <rect x="1030" y="704" width="320" height="112" rx="18" class="risk"/>
+    <text x="1190" y="744" text-anchor="middle" class="box-title">Dead-letter path</text>
+    <text x="1190" y="775" text-anchor="middle" class="box-copy">after five failed deliveries</text>
+    <text x="1190" y="798" text-anchor="middle" class="box-copy">retained for inspection</text>
+  </g>
+
+  <path d="M1221 566 V656 H410 V704" class="flow"/>
+  <path d="M800 628 V704" class="dash"/>
+  <path d="M495 312 V660 H1190 V704" class="dash"/>
+  <text x="604" y="681" class="label">durable result</text>
+  <text x="814" y="674" class="label">telemetry</text>
+  <text x="1000" y="682" class="label">delivery failures</text>
+
+  <text x="80" y="868" class="footer">Gemini 3.5 Flash Lite · Google ADK · Cloud Run · Pub/Sub · Firestore · Cloud Trace</text>
+  <text x="1520" y="868" text-anchor="end" class="footer">All remediation is synthetic and sandboxed</text>
+</svg>

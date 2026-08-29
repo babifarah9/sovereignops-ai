@@ -24,6 +24,7 @@ from google.adk.runners import Runner
 
 from app.app_utils import services
 from app.app_utils.a2a import attach_a2a_routes
+from app.event_ingestion import enforce_pubsub_idempotency
 
 load_dotenv()
 allow_origins = (
@@ -62,11 +63,15 @@ app: FastAPI = get_fast_api_app(
     artifact_service_uri=services.ARTIFACT_SERVICE_URI,
     allow_origins=allow_origins,
     session_service_uri=services.SESSION_SERVICE_URI,
-    otel_to_cloud=False,
+    otel_to_cloud=True,
     lifespan=lifespan,
+    trigger_sources=["pubsub"],
 )
 app.title = "sovereignops-ai"
 app.description = "API for interacting with the Agent sovereignops-ai"
+
+
+app.middleware("http")(enforce_pubsub_idempotency)
 
 
 # Main execution

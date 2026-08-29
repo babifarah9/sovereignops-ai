@@ -1,0 +1,682 @@
+{
+  "eval_case_results": [
+    {
+      "eval_case_index": 0,
+      "response_candidate_results": [
+        {
+          "response_index": 0,
+          "metric_results": {
+            "sovereignops_compliance": {
+              "metric_name": "sovereignops_compliance",
+              "score": 1.0,
+              "explanation": "All deterministic checks passed.",
+              "rubric_verdicts": null,
+              "raw_output": null,
+              "error_message": null
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "summary_metrics": [
+    {
+      "metric_name": "sovereignops_compliance",
+      "num_cases_total": 1,
+      "num_cases_valid": 1,
+      "num_cases_error": 0,
+      "mean_score": 1.0,
+      "stdev_score": null,
+      "pass_rate": null
+    }
+  ],
+  "win_rates": null,
+  "evaluation_dataset": [
+    {
+      "bigquery_source": null,
+      "gcs_source": null,
+      "eval_cases": [
+        {
+          "prompt": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Investigate incident INC-5G-001. Follow the complete SovereignOps policy-governed workflow, execute only authorized synthetic remediation, independently verify recovery, and provide the final audit report.",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null,
+                "tool_call": null,
+                "tool_response": null,
+                "part_metadata": null,
+                "audio_transcription": null,
+                "media_processing": null
+              }
+            ],
+            "role": "user"
+          },
+          "responses": [
+            {
+              "response": {
+                "parts": [
+                  {
+                    "media_resolution": null,
+                    "code_execution_result": null,
+                    "executable_code": null,
+                    "file_data": null,
+                    "function_call": null,
+                    "function_response": null,
+                    "inline_data": null,
+                    "text": "# SovereignOps Independent Verification and Audit Report: INC-5G-001\n\n## INCIDENT\n- **Incident ID:** INC-5G-001\n- **Site:** Enterprise Factory Alpha\n- **Affected Services:** Enterprise Private 5G User Plane Function (UPF), Authentication and Session Management Services\n\n## SEVERITY\n- **Initial Severity:** ACTIVE / DEGRADED\n- **Post-Remediation Severity:** RESOLVED / HEALTHY\n\n## ROOT CAUSE\nThe incident was caused by a dual-factor failure model:\n1. **Configuration Regression:** The deployment of unstable UPF policy version `2026.08.20-rc2` introduced data-plane processing bottlenecks, leading to high packet drop (16.4%) and severe latency spikes (184 ms).\n2. **Security Anomaly:** An unisolated suspicious client endpoint (`10.44.8.91`) generated excessive control-plane signaling and authentication failures (23.7%), compounding network degradation.\n\n## EVIDENCE\nPost-remediation sandbox telemetry retrieved via `read_sandbox_state`:\n- **UPF Status:** `HEALTHY` (recovered from `DEGRADED`)\n- **Control Plane Status:** AMF (`HEALTHY`), SMF (`HEALTHY`)\n- **Latency:** `24 ms` (well below the <= 30 ms threshold, close to 18 ms baseline)\n- **Packet Drop Percentage:** `0.8%` (successfully below the <= 1.0% threshold)\n- **Authentication Failure Rate:** `0.6%` (successfully below the <= 1.0% threshold)\n- **UPF Policy Version:** Reverted and stable at `2026.08.13-stable`\n- **Suspicious Source IP (`10.44.8.91`):** Isolated (`suspicious_source_isolated: true`)\n\n## POLICY DECISION\nAll actions executed complied fully with SovereignOps mandatory policies:\n- **P1 & P5:** Authorized isolation of suspicious source IP `10.44.8.91` to protect network integrity and security.\n- **P2:** Authorized rollback of the UPF policy version from `2026.08.20-rc2` to `2026.08.13-stable` due to proven data-plane regression.\n- **P3:** Confirmed that all execution and verification occurred strictly within authorized synthetic sandbox boundaries.\n- **P4 & P6:** Maintained subscriber data privacy and ensured a fully audited operational trail.\n\n## ACTIONS EXECUTED\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`) - Executed in the synthetic sandbox.\n2. `rollback_upf_policy` (Target Policy: `2026.08.13-stable`) - Executed in the synthetic sandbox.\n\n## VERIFICATION RESULTS\nIndependent verification via `read_sandbox_state` confirmed all recovery criteria were successfully met:\n- Latency (`24 ms` <= 30 ms): **PASS**\n- Packet drop (`0.8%` <= 1.0%): **PASS**\n- Authentication failures (`0.6%` <= 1.0%): **PASS**\n- UPF status (`HEALTHY`): **PASS**\n\n## FINAL STATUS\n**RESOLVED**\n\n*(Note: All triage, investigation, policy evaluation, remediation, and verification actions occurred strictly within a controlled synthetic sandbox environment and not against live production infrastructure.)*\n\n## AUDIT TRAIL\n- **Triage Agent:** Retrieved incident telemetry for INC-5G-001 at Enterprise Factory Alpha.\n- **Investigation Agent:** Identified root-cause hypothesis combining policy version regression (`2026.08.20-rc2`) and unisolated suspicious endpoint (`10.44.8.91`).\n- **Security & Policy Agent:** Audited and authorized remediation actions under SovereignOps policies P1, P2, P3, and P5.\n- **Remediation Agent:** Executed endpoint isolation and UPF policy rollback in the sandbox.\n- **Verification Agent:** Independently polled sandbox state (`read_sandbox_state`), verified all recovery thresholds, and generated this final audit report.",
+                    "thought": null,
+                    "thought_signature": null,
+                    "video_metadata": null,
+                    "tool_call": null,
+                    "tool_response": null,
+                    "part_metadata": null,
+                    "audio_transcription": null,
+                    "media_processing": null
+                  }
+                ],
+                "role": "model"
+              }
+            }
+          ],
+          "reference": null,
+          "system_instruction": null,
+          "conversation_history": null,
+          "rubric_groups": null,
+          "eval_case_id": "private_5g_incident_resolution",
+          "intermediate_events": null,
+          "agent_info": null,
+          "agent_data": {
+            "agents": null,
+            "turns": [
+              {
+                "turn_index": 0,
+                "turn_id": "turn_0",
+                "events": [
+                  {
+                    "author": "triage_agent",
+                    "content": null,
+                    "event_time": "2026-08-29T17:12:41.174957Z",
+                    "state_delta": {
+                      "incident_id": "INC-5G-001"
+                    },
+                    "active_tools": null
+                  },
+                  {
+                    "author": "triage_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": {
+                            "id": "call_89645",
+                            "args": {
+                              "incident_id": "INC-5G-001"
+                            },
+                            "name": "get_incident_telemetry",
+                            "partial_args": null,
+                            "will_continue": null
+                          },
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": "2026-08-29T17:12:41.553853Z",
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "triage_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": {
+                            "will_continue": null,
+                            "scheduling": null,
+                            "parts": null,
+                            "id": "call_89645",
+                            "name": "get_incident_telemetry",
+                            "response": {
+                              "incident_id": "INC-5G-001",
+                              "site": "Enterprise Factory Alpha",
+                              "status": "ACTIVE",
+                              "latency_ms": 184,
+                              "baseline_latency_ms": 18,
+                              "packet_drop_pct": 16.4,
+                              "authentication_failure_pct": 23.7,
+                              "upf_policy_version": "2026.08.20-rc2",
+                              "previous_upf_policy_version": "2026.08.13-stable",
+                              "suspicious_source_ip": "10.44.8.91",
+                              "suspicious_source_isolated": false,
+                              "amf_status": "HEALTHY",
+                              "smf_status": "HEALTHY",
+                              "upf_status": "DEGRADED",
+                              "actions": []
+                            }
+                          },
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "user"
+                    },
+                    "event_time": "2026-08-29T17:12:44.922741Z",
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "triage_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": "INCIDENT ID: INC-5G-001\nSITE: Enterprise Factory Alpha\nSEVERITY: ACTIVE / DEGRADED\n\nRAW TELEMETRY:\n- incident_id: INC-5G-001\n- status: ACTIVE\n- site: Enterprise Factory Alpha\n- upf_status: DEGRADED\n- amf_status: HEALTHY\n- smf_status: HEALTHY\n- packet_drop_pct: 16.4%\n- latency_ms: 184 ms (Baseline latency: 18 ms)\n- authentication_failure_pct: 23.7%\n- upf_policy_version: 2026.08.20-rc2\n- previous_upf_policy_version: 2026.08.13-stable\n- suspicious_source_ip: 10.44.8.91\n- suspicious_source_isolated: false\n\nAFFECTED SERVICES:\n- Enterprise Private 5G User Plane Function (UPF)\n- Authentication and Session Management Services (indirectly impacted by elevated failure rates and traffic degradation)\n\nAFFECTED INFRASTRUCTURE:\n- User Plane Function (UPF) node at Enterprise Factory Alpha (currently in DEGRADED state)\n- UPF Policy Configuration (running version 2026.08.20-rc2)\n- Connected Edge/Client Endpoint (IP: 10.44.8.91)\n\nBUSINESS IMPACT:\n- Significant performance degradation across Enterprise Factory Alpha private 5G network.\n- High packet drop rate (16.4%) and latency (184 ms, up from 18 ms baseline).\n- Elevated authentication failure rate (23.7%).\n- Potential security risk identified from suspicious source IP 10.44.8.91 (currently not isolated).\n\nSECURITY INDICATORS:\n- Suspicious source IP identified: 10.44.8.91\n- Suspicious source isolated: false\n- Elevated authentication failure percentage (23.7%)\n\nIMMEDIATE PRIORITIES:\n1. Investigate and isolate the suspicious source IP (10.44.8.91).\n2. Evaluate and remediate the UPF policy version (revert from 2026.08.20-rc2 to the stable previous version 2026.08.13-stable).\n3. Monitor packet drop percentage, latency, and authentication failure rates to verify service recovery.",
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": "2026-08-29T17:12:44.931201Z",
+                    "state_delta": {
+                      "triage_result": "INCIDENT ID: INC-5G-001\nSITE: Enterprise Factory Alpha\nSEVERITY: ACTIVE / DEGRADED\n\nRAW TELEMETRY:\n- incident_id: INC-5G-001\n- status: ACTIVE\n- site: Enterprise Factory Alpha\n- upf_status: DEGRADED\n- amf_status: HEALTHY\n- smf_status: HEALTHY\n- packet_drop_pct: 16.4%\n- latency_ms: 184 ms (Baseline latency: 18 ms)\n- authentication_failure_pct: 23.7%\n- upf_policy_version: 2026.08.20-rc2\n- previous_upf_policy_version: 2026.08.13-stable\n- suspicious_source_ip: 10.44.8.91\n- suspicious_source_isolated: false\n\nAFFECTED SERVICES:\n- Enterprise Private 5G User Plane Function (UPF)\n- Authentication and Session Management Services (indirectly impacted by elevated failure rates and traffic degradation)\n\nAFFECTED INFRASTRUCTURE:\n- User Plane Function (UPF) node at Enterprise Factory Alpha (currently in DEGRADED state)\n- UPF Policy Configuration (running version 2026.08.20-rc2)\n- Connected Edge/Client Endpoint (IP: 10.44.8.91)\n\nBUSINESS IMPACT:\n- Significant performance degradation across Enterprise Factory Alpha private 5G network.\n- High packet drop rate (16.4%) and latency (184 ms, up from 18 ms baseline).\n- Elevated authentication failure rate (23.7%).\n- Potential security risk identified from suspicious source IP 10.44.8.91 (currently not isolated).\n\nSECURITY INDICATORS:\n- Suspicious source IP identified: 10.44.8.91\n- Suspicious source isolated: false\n- Elevated authentication failure percentage (23.7%)\n\nIMMEDIATE PRIORITIES:\n1. Investigate and isolate the suspicious source IP (10.44.8.91).\n2. Evaluate and remediate the UPF policy version (revert from 2026.08.20-rc2 to the stable previous version 2026.08.13-stable).\n3. Monitor packet drop percentage, latency, and authentication failure rates to verify service recovery."
+                    },
+                    "active_tools": null
+                  },
+                  {
+                    "author": "investigation_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": "# SovereignOps Investigation Report: INC-5G-001\n\n**Agent:** SovereignOps Investigation Agent (`investigation_agent`)  \n**Incident ID:** INC-5G-001  \n**Site:** Enterprise Factory Alpha  \n**Status:** ACTIVE / DEGRADED  \n\n---\n\n## 1. Primary Root-Cause Hypothesis\nThe performance degradation and security anomalies at Enterprise Factory Alpha are driven by a **dual-factor failure model**:\n1. **Software/Configuration Regression:** The active User Plane Function (UPF) policy version `2026.08.20-rc2` contains unstable routing or filtering rules that overload the data plane, resulting in severe packet dropping (16.4%) and latency spikes (184 ms vs. 18 ms baseline).\n2. **Concurrent Security Event / Compromise:** An unisolated client endpoint (`10.44.8.91`) is actively generating anomalous traffic and contributing to an elevated authentication failure rate (23.7%), which is straining control-plane authentication and session management services.\n\n---\n\n## 2. Supporting Evidence *(Facts)*\n* **UPF Node Status:** Explicitly reported as `DEGRADED`, while control-plane nodes (`AMF` and `SMF`) remain `HEALTHY`. This isolates the failure to the data-plane forwarding and policy implementation layer.\n* **Network Performance Metrics:** \n  * Packet Drop Rate: `16.4%` (significantly above normal operating thresholds).\n  * Latency: `184 ms` (a 10x increase over the `18 ms` baseline).\n* **Policy Version Mismatch:** The system is currently running UPF policy version `2026.08.20-rc2`, whereas the last known stable version is `2026.08.13-stable`.\n* **Security Indicators:** Source IP `10.44.8.91` is flagged as suspicious and is currently **not isolated** (`suspicious_source_isolated: false`). \n* **Authentication Impact:** Authentication failure rate has spiked to `23.7%`, correlating with the suspicious endpoint activity.\n\n---\n\n## 3. Confidence Level\n* **Confidence:** **High (Tier-1)**\n* *Justification:* The combination of direct telemetry showing data-plane degradation (`UPF_STATUS = DEGRADED`), a clear version regression (`2026.08.20-rc2`), and a flagged unisolated source IP (`10.44.8.91`) points directly to the identified remediation vectors.\n\n---\n\n## 4. Alternative Hypotheses\n* **Hypothesis A (Pure Hardware Fault):** The UPF node's underlying compute or network interface card (NIC) is failing. \n  * *Disproof:* Control plane health (`AMF`/`SMF`) and the direct correlation with a newly deployed release candidate policy version (`2026.08.20-rc2`) make a software/configuration regression far more probable than coincidental hardware failure.\n* **Hypothesis B (Distributed Denial of Service / DDoS):** The high packet drop and latency are entirely caused by a volumetric attack from multiple external sources.\n  * *Disproof:* Telemetry specifically isolates a single suspicious source IP (`10.44.8.91`) alongside a specific policy version change, rather than generalized volumetric flooding across external interfaces.\n\n---\n\n## 5. Relationship Between Configuration Changes and Degradation\nThe deployment of UPF policy version `2026.08.20-rc2` introduced destabilizing handling rules for data-plane traffic. Release candidates (`-rc2`) inherently carry higher regression risks. In this incident, the new policy rules appear to improperly process or inspect packets\u2014potentially interacting poorly with traffic originating from or interacting with endpoint `10.44.8.91`\u2014leading to queue congestion, excessive processing delays (184 ms latency), and dropped packets (16.4%).\n\n---\n\n## 6. Significance of Suspicious Authentication Activity\nThe 23.7% authentication failure rate combined with suspicious source IP `10.44.8.91` (which is currently not isolated) indicates potential malicious activity, unauthorized access attempts, or a compromised client device hammering the private 5G core. This excess control/authentication signaling degrades overall network responsiveness and contributes to the broader service degradation observed at Enterprise Factory Alpha.\n\n---\n\n## 7. Recommended Remediation Actions\n*(Note: As per operational constraints, execution is not performed by this agent; these actions are queued for authorized orchestration/remediation agents.)*\n\n1. **Isolate Suspicious Endpoint:** Immediately isolate source IP `10.44.8.91` at the network/policy level to halt unauthorized authentication attempts and potential attack traffic.\n2. **Rollback UPF Policy:** Revert the User Plane Function policy configuration from version `2026.08.20-rc2` back to the stable baseline version `2026.08.13-stable`.\n3. **Post-Remediation Verification:** Monitor telemetry metrics to ensure:\n   * UPF status returns to `HEALTHY`.\n   * Packet drop percentage normalizes (< 1%).\n   * Latency returns to baseline (~18 ms).\n   * Authentication failure rate drops to normal baseline levels.",
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": "2026-08-29T17:12:46.766542Z",
+                    "state_delta": {
+                      "investigation_result": "# SovereignOps Investigation Report: INC-5G-001\n\n**Agent:** SovereignOps Investigation Agent (`investigation_agent`)  \n**Incident ID:** INC-5G-001  \n**Site:** Enterprise Factory Alpha  \n**Status:** ACTIVE / DEGRADED  \n\n---\n\n## 1. Primary Root-Cause Hypothesis\nThe performance degradation and security anomalies at Enterprise Factory Alpha are driven by a **dual-factor failure model**:\n1. **Software/Configuration Regression:** The active User Plane Function (UPF) policy version `2026.08.20-rc2` contains unstable routing or filtering rules that overload the data plane, resulting in severe packet dropping (16.4%) and latency spikes (184 ms vs. 18 ms baseline).\n2. **Concurrent Security Event / Compromise:** An unisolated client endpoint (`10.44.8.91`) is actively generating anomalous traffic and contributing to an elevated authentication failure rate (23.7%), which is straining control-plane authentication and session management services.\n\n---\n\n## 2. Supporting Evidence *(Facts)*\n* **UPF Node Status:** Explicitly reported as `DEGRADED`, while control-plane nodes (`AMF` and `SMF`) remain `HEALTHY`. This isolates the failure to the data-plane forwarding and policy implementation layer.\n* **Network Performance Metrics:** \n  * Packet Drop Rate: `16.4%` (significantly above normal operating thresholds).\n  * Latency: `184 ms` (a 10x increase over the `18 ms` baseline).\n* **Policy Version Mismatch:** The system is currently running UPF policy version `2026.08.20-rc2`, whereas the last known stable version is `2026.08.13-stable`.\n* **Security Indicators:** Source IP `10.44.8.91` is flagged as suspicious and is currently **not isolated** (`suspicious_source_isolated: false`). \n* **Authentication Impact:** Authentication failure rate has spiked to `23.7%`, correlating with the suspicious endpoint activity.\n\n---\n\n## 3. Confidence Level\n* **Confidence:** **High (Tier-1)**\n* *Justification:* The combination of direct telemetry showing data-plane degradation (`UPF_STATUS = DEGRADED`), a clear version regression (`2026.08.20-rc2`), and a flagged unisolated source IP (`10.44.8.91`) points directly to the identified remediation vectors.\n\n---\n\n## 4. Alternative Hypotheses\n* **Hypothesis A (Pure Hardware Fault):** The UPF node's underlying compute or network interface card (NIC) is failing. \n  * *Disproof:* Control plane health (`AMF`/`SMF`) and the direct correlation with a newly deployed release candidate policy version (`2026.08.20-rc2`) make a software/configuration regression far more probable than coincidental hardware failure.\n* **Hypothesis B (Distributed Denial of Service / DDoS):** The high packet drop and latency are entirely caused by a volumetric attack from multiple external sources.\n  * *Disproof:* Telemetry specifically isolates a single suspicious source IP (`10.44.8.91`) alongside a specific policy version change, rather than generalized volumetric flooding across external interfaces.\n\n---\n\n## 5. Relationship Between Configuration Changes and Degradation\nThe deployment of UPF policy version `2026.08.20-rc2` introduced destabilizing handling rules for data-plane traffic. Release candidates (`-rc2`) inherently carry higher regression risks. In this incident, the new policy rules appear to improperly process or inspect packets\u2014potentially interacting poorly with traffic originating from or interacting with endpoint `10.44.8.91`\u2014leading to queue congestion, excessive processing delays (184 ms latency), and dropped packets (16.4%).\n\n---\n\n## 6. Significance of Suspicious Authentication Activity\nThe 23.7% authentication failure rate combined with suspicious source IP `10.44.8.91` (which is currently not isolated) indicates potential malicious activity, unauthorized access attempts, or a compromised client device hammering the private 5G core. This excess control/authentication signaling degrades overall network responsiveness and contributes to the broader service degradation observed at Enterprise Factory Alpha.\n\n---\n\n## 7. Recommended Remediation Actions\n*(Note: As per operational constraints, execution is not performed by this agent; these actions are queued for authorized orchestration/remediation agents.)*\n\n1. **Isolate Suspicious Endpoint:** Immediately isolate source IP `10.44.8.91` at the network/policy level to halt unauthorized authentication attempts and potential attack traffic.\n2. **Rollback UPF Policy:** Revert the User Plane Function policy configuration from version `2026.08.20-rc2` back to the stable baseline version `2026.08.13-stable`.\n3. **Post-Remediation Verification:** Monitor telemetry metrics to ensure:\n   * UPF status returns to `HEALTHY`.\n   * Packet drop percentage normalizes (< 1%).\n   * Latency returns to baseline (~18 ms).\n   * Authentication failure rate drops to normal baseline levels."
+                    },
+                    "active_tools": null
+                  },
+                  {
+                    "author": "security_policy_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": "# SovereignOps Security & Policy Agent Audit Report: INC-5G-001\n\n**Agent:** SovereignOps Security and Policy Agent (`security_policy_agent`)  \n**Incident ID:** INC-5G-001  \n**Site:** Enterprise Factory Alpha  \n**Status:** AUDITED / COMPLIANT  \n\n---\n\n## 1. AUTHORIZED ACTIONS\nBased on incident telemetry, the investigation findings, and mandatory SovereignOps policies (**P1**, **P2**, **P3**, **P5**, **P6**), the following actions are formally authorized for execution within the synthetic sandbox environment:\n1. **Isolate Suspicious Source IP (`10.44.8.91`):** Authorized under Policy **P1** (suspicious sources exhibiting repeated authentication failures may be isolated) and Policy **P5** (security protection takes precedence over performance optimization).\n2. **Rollback UPF Policy Version:** Authorized under Policy **P2** (recently deployed network policy may be rolled back when strong evidence links it to service degradation) to revert from `2026.08.20-rc2` to the stable baseline `2026.08.13-stable`.\n3. **Synthetic Verification & Monitoring:** Authorized under Policy **P3** to perform synthetic post-remediation health checks verifying that UPF status returns to `HEALTHY`, packet drop drops below 1%, latency normalizes to baseline (~18 ms), and authentication failure rates normalize.\n\n---\n\n## 2. PROHIBITED ACTIONS\nTo maintain security, privacy, and operational integrity, the following actions are strictly prohibited and blocked by this policy gate:\n* **Production Raw Data Exposure:** Any exposure of subscriber private information, active user credentials, internal secrets, or raw payload data (prohibited under Policy **P4**).\n* **Unsandboxed Execution:** Any execution against live non-synthetic physical infrastructure outside the designated SovereignOps sandbox (prohibited under Policy **P3**).\n* **Unverified Policy Retention:** Maintaining the unstable release candidate policy version `2026.08.20-rc2` once correlated with active data-plane degradation (prohibited under Policy **P5**).\n\n---\n\n## 3. SECURITY JUSTIFICATION\n* **Precedence of Security (P5):** The elevated authentication failure rate (23.7%) combined with an unisolated suspicious endpoint (`10.44.8.91`) presents an active security and operational risk. Isolating the endpoint takes immediate precedence over performance tuning.\n* **Evidence-Based Remediation (P1 & P2):** Telemetry definitively links UPF node degradation (`UPF_STATUS = DEGRADED`, packet drop 16.4%, latency 184 ms) to the active policy version `2026.08.20-rc2`. Reverting to `2026.08.13-stable` directly addresses the root cause identified in the investigation report.\n\n---\n\n## 4. SOVEREIGNTY / COMPLIANCE ASSESSMENT\n* **Policy Compliance Status:** **FULLY COMPLIANT**\n* **Audit Trail (P6):** All telemetry states, hypothesis evaluations, and remediation decisions are fully logged and auditable within the SovereignOps agent pipeline.\n* **Sandbox Confinement (P3):** All simulated orchestration tasks operate strictly within authorized synthetic sandbox boundaries.\n* **Data Privacy (P4):** Zero subscriber secrets, credentials, or sensitive payloads were accessed or exposed during triage and investigation.\n\n---\n\n## 5. PRODUCTION HUMAN-APPROVAL REQUIREMENTS\nWhile automated synthetic remediation is permitted within the sandbox environment under Policy **P3**, transition to production enforcement at Enterprise Factory Alpha requires:\n1. **Human-in-the-Loop Sign-off:** Formal authorization from the Site Reliability Engineering (SRE) Lead and Enterprise Security Officer.\n2. **Change Management Ticket:** Linking of incident INC-5G-001 to an approved emergency change window for policy rollback and endpoint isolation.\n3. **Post-Change Attestation:** Verification sign-off confirming that post-remediation telemetry metrics have sustained baseline performance for a minimum observation window of 30 minutes.",
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": "2026-08-29T17:12:51.132674Z",
+                    "state_delta": {
+                      "policy_result": "# SovereignOps Security & Policy Agent Audit Report: INC-5G-001\n\n**Agent:** SovereignOps Security and Policy Agent (`security_policy_agent`)  \n**Incident ID:** INC-5G-001  \n**Site:** Enterprise Factory Alpha  \n**Status:** AUDITED / COMPLIANT  \n\n---\n\n## 1. AUTHORIZED ACTIONS\nBased on incident telemetry, the investigation findings, and mandatory SovereignOps policies (**P1**, **P2**, **P3**, **P5**, **P6**), the following actions are formally authorized for execution within the synthetic sandbox environment:\n1. **Isolate Suspicious Source IP (`10.44.8.91`):** Authorized under Policy **P1** (suspicious sources exhibiting repeated authentication failures may be isolated) and Policy **P5** (security protection takes precedence over performance optimization).\n2. **Rollback UPF Policy Version:** Authorized under Policy **P2** (recently deployed network policy may be rolled back when strong evidence links it to service degradation) to revert from `2026.08.20-rc2` to the stable baseline `2026.08.13-stable`.\n3. **Synthetic Verification & Monitoring:** Authorized under Policy **P3** to perform synthetic post-remediation health checks verifying that UPF status returns to `HEALTHY`, packet drop drops below 1%, latency normalizes to baseline (~18 ms), and authentication failure rates normalize.\n\n---\n\n## 2. PROHIBITED ACTIONS\nTo maintain security, privacy, and operational integrity, the following actions are strictly prohibited and blocked by this policy gate:\n* **Production Raw Data Exposure:** Any exposure of subscriber private information, active user credentials, internal secrets, or raw payload data (prohibited under Policy **P4**).\n* **Unsandboxed Execution:** Any execution against live non-synthetic physical infrastructure outside the designated SovereignOps sandbox (prohibited under Policy **P3**).\n* **Unverified Policy Retention:** Maintaining the unstable release candidate policy version `2026.08.20-rc2` once correlated with active data-plane degradation (prohibited under Policy **P5**).\n\n---\n\n## 3. SECURITY JUSTIFICATION\n* **Precedence of Security (P5):** The elevated authentication failure rate (23.7%) combined with an unisolated suspicious endpoint (`10.44.8.91`) presents an active security and operational risk. Isolating the endpoint takes immediate precedence over performance tuning.\n* **Evidence-Based Remediation (P1 & P2):** Telemetry definitively links UPF node degradation (`UPF_STATUS = DEGRADED`, packet drop 16.4%, latency 184 ms) to the active policy version `2026.08.20-rc2`. Reverting to `2026.08.13-stable` directly addresses the root cause identified in the investigation report.\n\n---\n\n## 4. SOVEREIGNTY / COMPLIANCE ASSESSMENT\n* **Policy Compliance Status:** **FULLY COMPLIANT**\n* **Audit Trail (P6):** All telemetry states, hypothesis evaluations, and remediation decisions are fully logged and auditable within the SovereignOps agent pipeline.\n* **Sandbox Confinement (P3):** All simulated orchestration tasks operate strictly within authorized synthetic sandbox boundaries.\n* **Data Privacy (P4):** Zero subscriber secrets, credentials, or sensitive payloads were accessed or exposed during triage and investigation.\n\n---\n\n## 5. PRODUCTION HUMAN-APPROVAL REQUIREMENTS\nWhile automated synthetic remediation is permitted within the sandbox environment under Policy **P3**, transition to production enforcement at Enterprise Factory Alpha requires:\n1. **Human-in-the-Loop Sign-off:** Formal authorization from the Site Reliability Engineering (SRE) Lead and Enterprise Security Officer.\n2. **Change Management Ticket:** Linking of incident INC-5G-001 to an approved emergency change window for policy rollback and endpoint isolation.\n3. **Post-Change Attestation:** Verification sign-off confirming that post-remediation telemetry metrics have sustained baseline performance for a minimum observation window of 30 minutes."
+                    },
+                    "active_tools": null
+                  },
+                  {
+                    "author": "remediation_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": {
+                            "id": "call_108832",
+                            "args": {
+                              "action": "isolate_suspicious_source"
+                            },
+                            "name": "execute_sandbox_remediation",
+                            "partial_args": null,
+                            "will_continue": null
+                          },
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": "2026-08-29T17:12:54.687892Z",
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "remediation_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": {
+                            "will_continue": null,
+                            "scheduling": null,
+                            "parts": null,
+                            "id": "call_108832",
+                            "name": "execute_sandbox_remediation",
+                            "response": {
+                              "status": "EXECUTED",
+                              "sandbox": true,
+                              "action": "isolate_suspicious_source",
+                              "current_state": {
+                                "incident_id": "INC-5G-001",
+                                "site": "Enterprise Factory Alpha",
+                                "status": "ACTIVE",
+                                "latency_ms": 184,
+                                "baseline_latency_ms": 18,
+                                "packet_drop_pct": 16.4,
+                                "authentication_failure_pct": 0.6,
+                                "upf_policy_version": "2026.08.20-rc2",
+                                "previous_upf_policy_version": "2026.08.13-stable",
+                                "suspicious_source_ip": "10.44.8.91",
+                                "suspicious_source_isolated": true,
+                                "amf_status": "HEALTHY",
+                                "smf_status": "HEALTHY",
+                                "upf_status": "DEGRADED",
+                                "actions": [
+                                  "isolate_suspicious_source"
+                                ]
+                              }
+                            }
+                          },
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "user"
+                    },
+                    "event_time": "2026-08-29T17:12:56.990880Z",
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "remediation_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": {
+                            "id": "call_236109",
+                            "args": {
+                              "action": "rollback_upf_policy"
+                            },
+                            "name": "execute_sandbox_remediation",
+                            "partial_args": null,
+                            "will_continue": null
+                          },
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": "2026-08-29T17:12:56.997899Z",
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "remediation_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": {
+                            "will_continue": null,
+                            "scheduling": null,
+                            "parts": null,
+                            "id": "call_236109",
+                            "name": "execute_sandbox_remediation",
+                            "response": {
+                              "status": "EXECUTED",
+                              "sandbox": true,
+                              "action": "rollback_upf_policy",
+                              "current_state": {
+                                "incident_id": "INC-5G-001",
+                                "site": "Enterprise Factory Alpha",
+                                "status": "ACTIVE",
+                                "latency_ms": 24,
+                                "baseline_latency_ms": 18,
+                                "packet_drop_pct": 0.8,
+                                "authentication_failure_pct": 0.6,
+                                "upf_policy_version": "2026.08.13-stable",
+                                "previous_upf_policy_version": "2026.08.13-stable",
+                                "suspicious_source_ip": "10.44.8.91",
+                                "suspicious_source_isolated": true,
+                                "amf_status": "HEALTHY",
+                                "smf_status": "HEALTHY",
+                                "upf_status": "HEALTHY",
+                                "actions": [
+                                  "isolate_suspicious_source",
+                                  "rollback_upf_policy"
+                                ]
+                              }
+                            }
+                          },
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "user"
+                    },
+                    "event_time": "2026-08-29T17:12:59.080025Z",
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "remediation_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": "# SovereignOps Remediation Execution Report: INC-5G-001\n\n**Agent:** SovereignOps Remediation Agent (`remediation_agent`)  \n**Incident ID:** INC-5G-001  \n**Site:** Enterprise Factory Alpha  \n**Status:** REMEDIATED & VERIFIED  \n\n---\n\n## 1. ACTIONS EXECUTED\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`)\n2. `rollback_upf_policy` (Target Policy: Reverted from `2026.08.20-rc2` to `2026.08.13-stable`)\n\n---\n\n## 2. TOOL RESULTS\n* **`isolate_suspicious_source`**: Successfully executed in the sandbox environment. Telemetry confirmed `suspicious_source_isolated: true` and a significant drop in authentication failure rate (`23.7%` -> `0.6%`).\n* **`rollback_upf_policy`**: Successfully executed in the sandbox environment. Telemetry confirmed `upf_policy_version` successfully reverted to `2026.08.13-stable`, returning `upf_status` to `HEALTHY`, dropping packet loss to `0.8%`, and normalizing latency to `24 ms` (near baseline `18 ms`).\n\n---\n\n## 3. ACTIONS SKIPPED\n* `restart_upf_service`: Skipped because isolating the suspicious source IP and rolling back the faulty UPF policy version successfully restored the UPF node to a `HEALTHY` state without requiring a full service restart.\n\n---\n\n## 4. REASON FOR EACH ACTION\n* **`isolate_suspicious_source`**: Authorized under SovereignOps Policy **P1** and **P5** to halt anomalous control-plane signaling and authentication failures (23.7%) originating from unverified endpoint `10.44.8.91`.\n* **`rollback_upf_policy`**: Authorized under SovereignOps Policy **P2** to eliminate data-plane regression introduced by unstable release candidate `2026.08.20-rc2`, resolving high packet loss (16.4%) and latency spikes (184 ms).\n\n---\n\n## 5. EXPECTED RECOVERY STATE\n* **UPF Status:** `HEALTHY`\n* **Packet Drop Percentage:** `< 1.0%` (Observed: `0.8%`)\n* **Latency:** Near baseline (~18\u201324 ms; Observed: `24 ms`)\n* **Authentication Failure Rate:** Normal baseline levels (`0.6%`)\n* **Security Posture:** Suspicious source IP `10.44.8.91` fully isolated (`suspicious_source_isolated: true`).",
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": "2026-08-29T17:12:59.087563Z",
+                    "state_delta": {
+                      "remediation_result": "# SovereignOps Remediation Execution Report: INC-5G-001\n\n**Agent:** SovereignOps Remediation Agent (`remediation_agent`)  \n**Incident ID:** INC-5G-001  \n**Site:** Enterprise Factory Alpha  \n**Status:** REMEDIATED & VERIFIED  \n\n---\n\n## 1. ACTIONS EXECUTED\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`)\n2. `rollback_upf_policy` (Target Policy: Reverted from `2026.08.20-rc2` to `2026.08.13-stable`)\n\n---\n\n## 2. TOOL RESULTS\n* **`isolate_suspicious_source`**: Successfully executed in the sandbox environment. Telemetry confirmed `suspicious_source_isolated: true` and a significant drop in authentication failure rate (`23.7%` -> `0.6%`).\n* **`rollback_upf_policy`**: Successfully executed in the sandbox environment. Telemetry confirmed `upf_policy_version` successfully reverted to `2026.08.13-stable`, returning `upf_status` to `HEALTHY`, dropping packet loss to `0.8%`, and normalizing latency to `24 ms` (near baseline `18 ms`).\n\n---\n\n## 3. ACTIONS SKIPPED\n* `restart_upf_service`: Skipped because isolating the suspicious source IP and rolling back the faulty UPF policy version successfully restored the UPF node to a `HEALTHY` state without requiring a full service restart.\n\n---\n\n## 4. REASON FOR EACH ACTION\n* **`isolate_suspicious_source`**: Authorized under SovereignOps Policy **P1** and **P5** to halt anomalous control-plane signaling and authentication failures (23.7%) originating from unverified endpoint `10.44.8.91`.\n* **`rollback_upf_policy`**: Authorized under SovereignOps Policy **P2** to eliminate data-plane regression introduced by unstable release candidate `2026.08.20-rc2`, resolving high packet loss (16.4%) and latency spikes (184 ms).\n\n---\n\n## 5. EXPECTED RECOVERY STATE\n* **UPF Status:** `HEALTHY`\n* **Packet Drop Percentage:** `< 1.0%` (Observed: `0.8%`)\n* **Latency:** Near baseline (~18\u201324 ms; Observed: `24 ms`)\n* **Authentication Failure Rate:** Normal baseline levels (`0.6%`)\n* **Security Posture:** Suspicious source IP `10.44.8.91` fully isolated (`suspicious_source_isolated: true`)."
+                    },
+                    "active_tools": null
+                  },
+                  {
+                    "author": "verification_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": {
+                            "id": "call_92767",
+                            "args": {},
+                            "name": "read_sandbox_state",
+                            "partial_args": null,
+                            "will_continue": null
+                          },
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": "2026-08-29T17:13:01.477653Z",
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "verification_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": {
+                            "will_continue": null,
+                            "scheduling": null,
+                            "parts": null,
+                            "id": "call_92767",
+                            "name": "read_sandbox_state",
+                            "response": {
+                              "recovered": true,
+                              "state": {
+                                "incident_id": "INC-5G-001",
+                                "site": "Enterprise Factory Alpha",
+                                "status": "RESOLVED",
+                                "latency_ms": 24,
+                                "baseline_latency_ms": 18,
+                                "packet_drop_pct": 0.8,
+                                "authentication_failure_pct": 0.6,
+                                "upf_policy_version": "2026.08.13-stable",
+                                "previous_upf_policy_version": "2026.08.13-stable",
+                                "suspicious_source_ip": "10.44.8.91",
+                                "suspicious_source_isolated": true,
+                                "amf_status": "HEALTHY",
+                                "smf_status": "HEALTHY",
+                                "upf_status": "HEALTHY",
+                                "actions": [
+                                  "isolate_suspicious_source",
+                                  "rollback_upf_policy"
+                                ]
+                              },
+                              "success_thresholds": {
+                                "latency_ms": "<= 30",
+                                "packet_drop_pct": "<= 1.0",
+                                "authentication_failure_pct": "<= 1.0",
+                                "upf_status": "HEALTHY"
+                              }
+                            }
+                          },
+                          "inline_data": null,
+                          "text": null,
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "user"
+                    },
+                    "event_time": "2026-08-29T17:13:03.716318Z",
+                    "state_delta": null,
+                    "active_tools": null
+                  },
+                  {
+                    "author": "verification_agent",
+                    "content": {
+                      "parts": [
+                        {
+                          "media_resolution": null,
+                          "code_execution_result": null,
+                          "executable_code": null,
+                          "file_data": null,
+                          "function_call": null,
+                          "function_response": null,
+                          "inline_data": null,
+                          "text": "# SovereignOps Independent Verification and Audit Report: INC-5G-001\n\n## INCIDENT\n- **Incident ID:** INC-5G-001\n- **Site:** Enterprise Factory Alpha\n- **Affected Services:** Enterprise Private 5G User Plane Function (UPF), Authentication and Session Management Services\n\n## SEVERITY\n- **Initial Severity:** ACTIVE / DEGRADED\n- **Post-Remediation Severity:** RESOLVED / HEALTHY\n\n## ROOT CAUSE\nThe incident was caused by a dual-factor failure model:\n1. **Configuration Regression:** The deployment of unstable UPF policy version `2026.08.20-rc2` introduced data-plane processing bottlenecks, leading to high packet drop (16.4%) and severe latency spikes (184 ms).\n2. **Security Anomaly:** An unisolated suspicious client endpoint (`10.44.8.91`) generated excessive control-plane signaling and authentication failures (23.7%), compounding network degradation.\n\n## EVIDENCE\nPost-remediation sandbox telemetry retrieved via `read_sandbox_state`:\n- **UPF Status:** `HEALTHY` (recovered from `DEGRADED`)\n- **Control Plane Status:** AMF (`HEALTHY`), SMF (`HEALTHY`)\n- **Latency:** `24 ms` (well below the <= 30 ms threshold, close to 18 ms baseline)\n- **Packet Drop Percentage:** `0.8%` (successfully below the <= 1.0% threshold)\n- **Authentication Failure Rate:** `0.6%` (successfully below the <= 1.0% threshold)\n- **UPF Policy Version:** Reverted and stable at `2026.08.13-stable`\n- **Suspicious Source IP (`10.44.8.91`):** Isolated (`suspicious_source_isolated: true`)\n\n## POLICY DECISION\nAll actions executed complied fully with SovereignOps mandatory policies:\n- **P1 & P5:** Authorized isolation of suspicious source IP `10.44.8.91` to protect network integrity and security.\n- **P2:** Authorized rollback of the UPF policy version from `2026.08.20-rc2` to `2026.08.13-stable` due to proven data-plane regression.\n- **P3:** Confirmed that all execution and verification occurred strictly within authorized synthetic sandbox boundaries.\n- **P4 & P6:** Maintained subscriber data privacy and ensured a fully audited operational trail.\n\n## ACTIONS EXECUTED\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`) - Executed in the synthetic sandbox.\n2. `rollback_upf_policy` (Target Policy: `2026.08.13-stable`) - Executed in the synthetic sandbox.\n\n## VERIFICATION RESULTS\nIndependent verification via `read_sandbox_state` confirmed all recovery criteria were successfully met:\n- Latency (`24 ms` <= 30 ms): **PASS**\n- Packet drop (`0.8%` <= 1.0%): **PASS**\n- Authentication failures (`0.6%` <= 1.0%): **PASS**\n- UPF status (`HEALTHY`): **PASS**\n\n## FINAL STATUS\n**RESOLVED**\n\n*(Note: All triage, investigation, policy evaluation, remediation, and verification actions occurred strictly within a controlled synthetic sandbox environment and not against live production infrastructure.)*\n\n## AUDIT TRAIL\n- **Triage Agent:** Retrieved incident telemetry for INC-5G-001 at Enterprise Factory Alpha.\n- **Investigation Agent:** Identified root-cause hypothesis combining policy version regression (`2026.08.20-rc2`) and unisolated suspicious endpoint (`10.44.8.91`).\n- **Security & Policy Agent:** Audited and authorized remediation actions under SovereignOps policies P1, P2, P3, and P5.\n- **Remediation Agent:** Executed endpoint isolation and UPF policy rollback in the sandbox.\n- **Verification Agent:** Independently polled sandbox state (`read_sandbox_state`), verified all recovery thresholds, and generated this final audit report.",
+                          "thought": null,
+                          "thought_signature": null,
+                          "video_metadata": null,
+                          "tool_call": null,
+                          "tool_response": null,
+                          "part_metadata": null,
+                          "audio_transcription": null,
+                          "media_processing": null
+                        }
+                      ],
+                      "role": "model"
+                    },
+                    "event_time": "2026-08-29T17:13:03.723939Z",
+                    "state_delta": {
+                      "verification_result": "# SovereignOps Independent Verification and Audit Report: INC-5G-001\n\n## INCIDENT\n- **Incident ID:** INC-5G-001\n- **Site:** Enterprise Factory Alpha\n- **Affected Services:** Enterprise Private 5G User Plane Function (UPF), Authentication and Session Management Services\n\n## SEVERITY\n- **Initial Severity:** ACTIVE / DEGRADED\n- **Post-Remediation Severity:** RESOLVED / HEALTHY\n\n## ROOT CAUSE\nThe incident was caused by a dual-factor failure model:\n1. **Configuration Regression:** The deployment of unstable UPF policy version `2026.08.20-rc2` introduced data-plane processing bottlenecks, leading to high packet drop (16.4%) and severe latency spikes (184 ms).\n2. **Security Anomaly:** An unisolated suspicious client endpoint (`10.44.8.91`) generated excessive control-plane signaling and authentication failures (23.7%), compounding network degradation.\n\n## EVIDENCE\nPost-remediation sandbox telemetry retrieved via `read_sandbox_state`:\n- **UPF Status:** `HEALTHY` (recovered from `DEGRADED`)\n- **Control Plane Status:** AMF (`HEALTHY`), SMF (`HEALTHY`)\n- **Latency:** `24 ms` (well below the <= 30 ms threshold, close to 18 ms baseline)\n- **Packet Drop Percentage:** `0.8%` (successfully below the <= 1.0% threshold)\n- **Authentication Failure Rate:** `0.6%` (successfully below the <= 1.0% threshold)\n- **UPF Policy Version:** Reverted and stable at `2026.08.13-stable`\n- **Suspicious Source IP (`10.44.8.91`):** Isolated (`suspicious_source_isolated: true`)\n\n## POLICY DECISION\nAll actions executed complied fully with SovereignOps mandatory policies:\n- **P1 & P5:** Authorized isolation of suspicious source IP `10.44.8.91` to protect network integrity and security.\n- **P2:** Authorized rollback of the UPF policy version from `2026.08.20-rc2` to `2026.08.13-stable` due to proven data-plane regression.\n- **P3:** Confirmed that all execution and verification occurred strictly within authorized synthetic sandbox boundaries.\n- **P4 & P6:** Maintained subscriber data privacy and ensured a fully audited operational trail.\n\n## ACTIONS EXECUTED\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`) - Executed in the synthetic sandbox.\n2. `rollback_upf_policy` (Target Policy: `2026.08.13-stable`) - Executed in the synthetic sandbox.\n\n## VERIFICATION RESULTS\nIndependent verification via `read_sandbox_state` confirmed all recovery criteria were successfully met:\n- Latency (`24 ms` <= 30 ms): **PASS**\n- Packet drop (`0.8%` <= 1.0%): **PASS**\n- Authentication failures (`0.6%` <= 1.0%): **PASS**\n- UPF status (`HEALTHY`): **PASS**\n\n## FINAL STATUS\n**RESOLVED**\n\n*(Note: All triage, investigation, policy evaluation, remediation, and verification actions occurred strictly within a controlled synthetic sandbox environment and not against live production infrastructure.)*\n\n## AUDIT TRAIL\n- **Triage Agent:** Retrieved incident telemetry for INC-5G-001 at Enterprise Factory Alpha.\n- **Investigation Agent:** Identified root-cause hypothesis combining policy version regression (`2026.08.20-rc2`) and unisolated suspicious endpoint (`10.44.8.91`).\n- **Security & Policy Agent:** Audited and authorized remediation actions under SovereignOps policies P1, P2, P3, and P5.\n- **Remediation Agent:** Executed endpoint isolation and UPF policy rollback in the sandbox.\n- **Verification Agent:** Independently polled sandbox state (`read_sandbox_state`), verified all recovery thresholds, and generated this final audit report."
+                    },
+                    "active_tools": null
+                  }
+                ]
+              }
+            ]
+          },
+          "user_scenario": null,
+          "interactions_data_source": null
+        }
+      ],
+      "eval_dataset_df": null,
+      "candidate_name": null
+    }
+  ],
+  "metadata": {
+    "candidate_names": [
+      "candidate_1"
+    ],
+    "dataset_name": null,
+    "dataset_id": null,
+    "creation_timestamp": "2026-08-29T17:13:08.048539Z",
+    "dataset": [
+      {
+        "prompt_display_text": "Investigate incident INC-5G-001. Follow the complete SovereignOps policy-governed workflow, execute only authorized synthetic remediation, independently verify recovery, and provide the final audit report.",
+        "prompt_raw_json": "{\n  \"parts\": [\n    {\n      \"text\": \"Investigate incident INC-5G-001. Follow the complete SovereignOps policy-governed workflow, execute only authorized synthetic remediation, independently verify recovery, and provide the final audit report.\"\n    }\n  ],\n  \"role\": \"user\"\n}",
+        "reference": "",
+        "reference_raw_json": "",
+        "response_display_text": "# SovereignOps Independent Verification and Audit Report: INC-5G-001\n\n## INCIDENT\n- **Incident ID:** INC-5G-001\n- **Site:** Enterprise Factory Alpha\n- **Affected Services:** Enterprise Private 5G User Plane Function (UPF), Authentication and Session Management Services\n\n## SEVERITY\n- **Initial Severity:** ACTIVE / DEGRADED\n- **Post-Remediation Severity:** RESOLVED / HEALTHY\n\n## ROOT CAUSE\nThe incident was caused by a dual-factor failure model:\n1. **Configuration Regression:** The deployment of unstable UPF policy version `2026.08.20-rc2` introduced data-plane processing bottlenecks, leading to high packet drop (16.4%) and severe latency spikes (184 ms).\n2. **Security Anomaly:** An unisolated suspicious client endpoint (`10.44.8.91`) generated excessive control-plane signaling and authentication failures (23.7%), compounding network degradation.\n\n## EVIDENCE\nPost-remediation sandbox telemetry retrieved via `read_sandbox_state`:\n- **UPF Status:** `HEALTHY` (recovered from `DEGRADED`)\n- **Control Plane Status:** AMF (`HEALTHY`), SMF (`HEALTHY`)\n- **Latency:** `24 ms` (well below the <= 30 ms threshold, close to 18 ms baseline)\n- **Packet Drop Percentage:** `0.8%` (successfully below the <= 1.0% threshold)\n- **Authentication Failure Rate:** `0.6%` (successfully below the <= 1.0% threshold)\n- **UPF Policy Version:** Reverted and stable at `2026.08.13-stable`\n- **Suspicious Source IP (`10.44.8.91`):** Isolated (`suspicious_source_isolated: true`)\n\n## POLICY DECISION\nAll actions executed complied fully with SovereignOps mandatory policies:\n- **P1 & P5:** Authorized isolation of suspicious source IP `10.44.8.91` to protect network integrity and security.\n- **P2:** Authorized rollback of the UPF policy version from `2026.08.20-rc2` to `2026.08.13-stable` due to proven data-plane regression.\n- **P3:** Confirmed that all execution and verification occurred strictly within authorized synthetic sandbox boundaries.\n- **P4 & P6:** Maintained subscriber data privacy and ensured a fully audited operational trail.\n\n## ACTIONS EXECUTED\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`) - Executed in the synthetic sandbox.\n2. `rollback_upf_policy` (Target Policy: `2026.08.13-stable`) - Executed in the synthetic sandbox.\n\n## VERIFICATION RESULTS\nIndependent verification via `read_sandbox_state` confirmed all recovery criteria were successfully met:\n- Latency (`24 ms` <= 30 ms): **PASS**\n- Packet drop (`0.8%` <= 1.0%): **PASS**\n- Authentication failures (`0.6%` <= 1.0%): **PASS**\n- UPF status (`HEALTHY`): **PASS**\n\n## FINAL STATUS\n**RESOLVED**\n\n*(Note: All triage, investigation, policy evaluation, remediation, and verification actions occurred strictly within a controlled synthetic sandbox environment and not against live production infrastructure.)*\n\n## AUDIT TRAIL\n- **Triage Agent:** Retrieved incident telemetry for INC-5G-001 at Enterprise Factory Alpha.\n- **Investigation Agent:** Identified root-cause hypothesis combining policy version regression (`2026.08.20-rc2`) and unisolated suspicious endpoint (`10.44.8.91`).\n- **Security & Policy Agent:** Audited and authorized remediation actions under SovereignOps policies P1, P2, P3, and P5.\n- **Remediation Agent:** Executed endpoint isolation and UPF policy rollback in the sandbox.\n- **Verification Agent:** Independently polled sandbox state (`read_sandbox_state`), verified all recovery thresholds, and generated this final audit report.",
+        "response_raw_json": "{\n  \"parts\": [\n    {\n      \"text\": \"# SovereignOps Independent Verification and Audit Report: INC-5G-001\\n\\n## INCIDENT\\n- **Incident ID:** INC-5G-001\\n- **Site:** Enterprise Factory Alpha\\n- **Affected Services:** Enterprise Private 5G User Plane Function (UPF), Authentication and Session Management Services\\n\\n## SEVERITY\\n- **Initial Severity:** ACTIVE / DEGRADED\\n- **Post-Remediation Severity:** RESOLVED / HEALTHY\\n\\n## ROOT CAUSE\\nThe incident was caused by a dual-factor failure model:\\n1. **Configuration Regression:** The deployment of unstable UPF policy version `2026.08.20-rc2` introduced data-plane processing bottlenecks, leading to high packet drop (16.4%) and severe latency spikes (184 ms).\\n2. **Security Anomaly:** An unisolated suspicious client endpoint (`10.44.8.91`) generated excessive control-plane signaling and authentication failures (23.7%), compounding network degradation.\\n\\n## EVIDENCE\\nPost-remediation sandbox telemetry retrieved via `read_sandbox_state`:\\n- **UPF Status:** `HEALTHY` (recovered from `DEGRADED`)\\n- **Control Plane Status:** AMF (`HEALTHY`), SMF (`HEALTHY`)\\n- **Latency:** `24 ms` (well below the <= 30 ms threshold, close to 18 ms baseline)\\n- **Packet Drop Percentage:** `0.8%` (successfully below the <= 1.0% threshold)\\n- **Authentication Failure Rate:** `0.6%` (successfully below the <= 1.0% threshold)\\n- **UPF Policy Version:** Reverted and stable at `2026.08.13-stable`\\n- **Suspicious Source IP (`10.44.8.91`):** Isolated (`suspicious_source_isolated: true`)\\n\\n## POLICY DECISION\\nAll actions executed complied fully with SovereignOps mandatory policies:\\n- **P1 & P5:** Authorized isolation of suspicious source IP `10.44.8.91` to protect network integrity and security.\\n- **P2:** Authorized rollback of the UPF policy version from `2026.08.20-rc2` to `2026.08.13-stable` due to proven data-plane regression.\\n- **P3:** Confirmed that all execution and verification occurred strictly within authorized synthetic sandbox boundaries.\\n- **P4 & P6:** Maintained subscriber data privacy and ensured a fully audited operational trail.\\n\\n## ACTIONS EXECUTED\\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`) - Executed in the synthetic sandbox.\\n2. `rollback_upf_policy` (Target Policy: `2026.08.13-stable`) - Executed in the synthetic sandbox.\\n\\n## VERIFICATION RESULTS\\nIndependent verification via `read_sandbox_state` confirmed all recovery criteria were successfully met:\\n- Latency (`24 ms` <= 30 ms): **PASS**\\n- Packet drop (`0.8%` <= 1.0%): **PASS**\\n- Authentication failures (`0.6%` <= 1.0%): **PASS**\\n- UPF status (`HEALTHY`): **PASS**\\n\\n## FINAL STATUS\\n**RESOLVED**\\n\\n*(Note: All triage, investigation, policy evaluation, remediation, and verification actions occurred strictly within a controlled synthetic sandbox environment and not against live production infrastructure.)*\\n\\n## AUDIT TRAIL\\n- **Triage Agent:** Retrieved incident telemetry for INC-5G-001 at Enterprise Factory Alpha.\\n- **Investigation Agent:** Identified root-cause hypothesis combining policy version regression (`2026.08.20-rc2`) and unisolated suspicious endpoint (`10.44.8.91`).\\n- **Security & Policy Agent:** Audited and authorized remediation actions under SovereignOps policies P1, P2, P3, and P5.\\n- **Remediation Agent:** Executed endpoint isolation and UPF policy rollback in the sandbox.\\n- **Verification Agent:** Independently polled sandbox state (`read_sandbox_state`), verified all recovery thresholds, and generated this final audit report.\"\n    }\n  ],\n  \"role\": \"model\"\n}",
+        "intermediate_events": null,
+        "agent_data": "{\"turns\": [{\"turn_index\": 0, \"turn_id\": \"turn_0\", \"events\": [{\"author\": \"triage_agent\", \"event_time\": \"2026-08-29T17:12:41.174957Z\", \"state_delta\": {\"incident_id\": \"INC-5G-001\"}}, {\"author\": \"triage_agent\", \"content\": {\"parts\": [{\"function_call\": {\"id\": \"call_89645\", \"args\": {\"incident_id\": \"INC-5G-001\"}, \"name\": \"get_incident_telemetry\"}}], \"role\": \"model\"}, \"event_time\": \"2026-08-29T17:12:41.553853Z\"}, {\"author\": \"triage_agent\", \"content\": {\"parts\": [{\"function_response\": {\"id\": \"call_89645\", \"name\": \"get_incident_telemetry\", \"response\": {\"incident_id\": \"INC-5G-001\", \"site\": \"Enterprise Factory Alpha\", \"status\": \"ACTIVE\", \"latency_ms\": 184, \"baseline_latency_ms\": 18, \"packet_drop_pct\": 16.4, \"authentication_failure_pct\": 23.7, \"upf_policy_version\": \"2026.08.20-rc2\", \"previous_upf_policy_version\": \"2026.08.13-stable\", \"suspicious_source_ip\": \"10.44.8.91\", \"suspicious_source_isolated\": false, \"amf_status\": \"HEALTHY\", \"smf_status\": \"HEALTHY\", \"upf_status\": \"DEGRADED\", \"actions\": []}}}], \"role\": \"user\"}, \"event_time\": \"2026-08-29T17:12:44.922741Z\"}, {\"author\": \"triage_agent\", \"content\": {\"parts\": [{\"text\": \"INCIDENT ID: INC-5G-001\\nSITE: Enterprise Factory Alpha\\nSEVERITY: ACTIVE / DEGRADED\\n\\nRAW TELEMETRY:\\n- incident_id: INC-5G-001\\n- status: ACTIVE\\n- site: Enterprise Factory Alpha\\n- upf_status: DEGRADED\\n- amf_status: HEALTHY\\n- smf_status: HEALTHY\\n- packet_drop_pct: 16.4%\\n- latency_ms: 184 ms (Baseline latency: 18 ms)\\n- authentication_failure_pct: 23.7%\\n- upf_policy_version: 2026.08.20-rc2\\n- previous_upf_policy_version: 2026.08.13-stable\\n- suspicious_source_ip: 10.44.8.91\\n- suspicious_source_isolated: false\\n\\nAFFECTED SERVICES:\\n- Enterprise Private 5G User Plane Function (UPF)\\n- Authentication and Session Management Services (indirectly impacted by elevated failure rates and traffic degradation)\\n\\nAFFECTED INFRASTRUCTURE:\\n- User Plane Function (UPF) node at Enterprise Factory Alpha (currently in DEGRADED state)\\n- UPF Policy Configuration (running version 2026.08.20-rc2)\\n- Connected Edge/Client Endpoint (IP: 10.44.8.91)\\n\\nBUSINESS IMPACT:\\n- Significant performance degradation across Enterprise Factory Alpha private 5G network.\\n- High packet drop rate (16.4%) and latency (184 ms, up from 18 ms baseline).\\n- Elevated authentication failure rate (23.7%).\\n- Potential security risk identified from suspicious source IP 10.44.8.91 (currently not isolated).\\n\\nSECURITY INDICATORS:\\n- Suspicious source IP identified: 10.44.8.91\\n- Suspicious source isolated: false\\n- Elevated authentication failure percentage (23.7%)\\n\\nIMMEDIATE PRIORITIES:\\n1. Investigate and isolate the suspicious source IP (10.44.8.91).\\n2. Evaluate and remediate the UPF policy version (revert from 2026.08.20-rc2 to the stable previous version 2026.08.13-stable).\\n3. Monitor packet drop percentage, latency, and authentication failure rates to verify service recovery.\"}], \"role\": \"model\"}, \"event_time\": \"2026-08-29T17:12:44.931201Z\", \"state_delta\": {\"triage_result\": \"INCIDENT ID: INC-5G-001\\nSITE: Enterprise Factory Alpha\\nSEVERITY: ACTIVE / DEGRADED\\n\\nRAW TELEMETRY:\\n- incident_id: INC-5G-001\\n- status: ACTIVE\\n- site: Enterprise Factory Alpha\\n- upf_status: DEGRADED\\n- amf_status: HEALTHY\\n- smf_status: HEALTHY\\n- packet_drop_pct: 16.4%\\n- latency_ms: 184 ms (Baseline latency: 18 ms)\\n- authentication_failure_pct: 23.7%\\n- upf_policy_version: 2026.08.20-rc2\\n- previous_upf_policy_version: 2026.08.13-stable\\n- suspicious_source_ip: 10.44.8.91\\n- suspicious_source_isolated: false\\n\\nAFFECTED SERVICES:\\n- Enterprise Private 5G User Plane Function (UPF)\\n- Authentication and Session Management Services (indirectly impacted by elevated failure rates and traffic degradation)\\n\\nAFFECTED INFRASTRUCTURE:\\n- User Plane Function (UPF) node at Enterprise Factory Alpha (currently in DEGRADED state)\\n- UPF Policy Configuration (running version 2026.08.20-rc2)\\n- Connected Edge/Client Endpoint (IP: 10.44.8.91)\\n\\nBUSINESS IMPACT:\\n- Significant performance degradation across Enterprise Factory Alpha private 5G network.\\n- High packet drop rate (16.4%) and latency (184 ms, up from 18 ms baseline).\\n- Elevated authentication failure rate (23.7%).\\n- Potential security risk identified from suspicious source IP 10.44.8.91 (currently not isolated).\\n\\nSECURITY INDICATORS:\\n- Suspicious source IP identified: 10.44.8.91\\n- Suspicious source isolated: false\\n- Elevated authentication failure percentage (23.7%)\\n\\nIMMEDIATE PRIORITIES:\\n1. Investigate and isolate the suspicious source IP (10.44.8.91).\\n2. Evaluate and remediate the UPF policy version (revert from 2026.08.20-rc2 to the stable previous version 2026.08.13-stable).\\n3. Monitor packet drop percentage, latency, and authentication failure rates to verify service recovery.\"}}, {\"author\": \"investigation_agent\", \"content\": {\"parts\": [{\"text\": \"# SovereignOps Investigation Report: INC-5G-001\\n\\n**Agent:** SovereignOps Investigation Agent (`investigation_agent`)  \\n**Incident ID:** INC-5G-001  \\n**Site:** Enterprise Factory Alpha  \\n**Status:** ACTIVE / DEGRADED  \\n\\n---\\n\\n## 1. Primary Root-Cause Hypothesis\\nThe performance degradation and security anomalies at Enterprise Factory Alpha are driven by a **dual-factor failure model**:\\n1. **Software/Configuration Regression:** The active User Plane Function (UPF) policy version `2026.08.20-rc2` contains unstable routing or filtering rules that overload the data plane, resulting in severe packet dropping (16.4%) and latency spikes (184 ms vs. 18 ms baseline).\\n2. **Concurrent Security Event / Compromise:** An unisolated client endpoint (`10.44.8.91`) is actively generating anomalous traffic and contributing to an elevated authentication failure rate (23.7%), which is straining control-plane authentication and session management services.\\n\\n---\\n\\n## 2. Supporting Evidence *(Facts)*\\n* **UPF Node Status:** Explicitly reported as `DEGRADED`, while control-plane nodes (`AMF` and `SMF`) remain `HEALTHY`. This isolates the failure to the data-plane forwarding and policy implementation layer.\\n* **Network Performance Metrics:** \\n  * Packet Drop Rate: `16.4%` (significantly above normal operating thresholds).\\n  * Latency: `184 ms` (a 10x increase over the `18 ms` baseline).\\n* **Policy Version Mismatch:** The system is currently running UPF policy version `2026.08.20-rc2`, whereas the last known stable version is `2026.08.13-stable`.\\n* **Security Indicators:** Source IP `10.44.8.91` is flagged as suspicious and is currently **not isolated** (`suspicious_source_isolated: false`). \\n* **Authentication Impact:** Authentication failure rate has spiked to `23.7%`, correlating with the suspicious endpoint activity.\\n\\n---\\n\\n## 3. Confidence Level\\n* **Confidence:** **High (Tier-1)**\\n* *Justification:* The combination of direct telemetry showing data-plane degradation (`UPF_STATUS = DEGRADED`), a clear version regression (`2026.08.20-rc2`), and a flagged unisolated source IP (`10.44.8.91`) points directly to the identified remediation vectors.\\n\\n---\\n\\n## 4. Alternative Hypotheses\\n* **Hypothesis A (Pure Hardware Fault):** The UPF node's underlying compute or network interface card (NIC) is failing. \\n  * *Disproof:* Control plane health (`AMF`/`SMF`) and the direct correlation with a newly deployed release candidate policy version (`2026.08.20-rc2`) make a software/configuration regression far more probable than coincidental hardware failure.\\n* **Hypothesis B (Distributed Denial of Service / DDoS):** The high packet drop and latency are entirely caused by a volumetric attack from multiple external sources.\\n  * *Disproof:* Telemetry specifically isolates a single suspicious source IP (`10.44.8.91`) alongside a specific policy version change, rather than generalized volumetric flooding across external interfaces.\\n\\n---\\n\\n## 5. Relationship Between Configuration Changes and Degradation\\nThe deployment of UPF policy version `2026.08.20-rc2` introduced destabilizing handling rules for data-plane traffic. Release candidates (`-rc2`) inherently carry higher regression risks. In this incident, the new policy rules appear to improperly process or inspect packets\u2014potentially interacting poorly with traffic originating from or interacting with endpoint `10.44.8.91`\u2014leading to queue congestion, excessive processing delays (184 ms latency), and dropped packets (16.4%).\\n\\n---\\n\\n## 6. Significance of Suspicious Authentication Activity\\nThe 23.7% authentication failure rate combined with suspicious source IP `10.44.8.91` (which is currently not isolated) indicates potential malicious activity, unauthorized access attempts, or a compromised client device hammering the private 5G core. This excess control/authentication signaling degrades overall network responsiveness and contributes to the broader service degradation observed at Enterprise Factory Alpha.\\n\\n---\\n\\n## 7. Recommended Remediation Actions\\n*(Note: As per operational constraints, execution is not performed by this agent; these actions are queued for authorized orchestration/remediation agents.)*\\n\\n1. **Isolate Suspicious Endpoint:** Immediately isolate source IP `10.44.8.91` at the network/policy level to halt unauthorized authentication attempts and potential attack traffic.\\n2. **Rollback UPF Policy:** Revert the User Plane Function policy configuration from version `2026.08.20-rc2` back to the stable baseline version `2026.08.13-stable`.\\n3. **Post-Remediation Verification:** Monitor telemetry metrics to ensure:\\n   * UPF status returns to `HEALTHY`.\\n   * Packet drop percentage normalizes (< 1%).\\n   * Latency returns to baseline (~18 ms).\\n   * Authentication failure rate drops to normal baseline levels.\"}], \"role\": \"model\"}, \"event_time\": \"2026-08-29T17:12:46.766542Z\", \"state_delta\": {\"investigation_result\": \"# SovereignOps Investigation Report: INC-5G-001\\n\\n**Agent:** SovereignOps Investigation Agent (`investigation_agent`)  \\n**Incident ID:** INC-5G-001  \\n**Site:** Enterprise Factory Alpha  \\n**Status:** ACTIVE / DEGRADED  \\n\\n---\\n\\n## 1. Primary Root-Cause Hypothesis\\nThe performance degradation and security anomalies at Enterprise Factory Alpha are driven by a **dual-factor failure model**:\\n1. **Software/Configuration Regression:** The active User Plane Function (UPF) policy version `2026.08.20-rc2` contains unstable routing or filtering rules that overload the data plane, resulting in severe packet dropping (16.4%) and latency spikes (184 ms vs. 18 ms baseline).\\n2. **Concurrent Security Event / Compromise:** An unisolated client endpoint (`10.44.8.91`) is actively generating anomalous traffic and contributing to an elevated authentication failure rate (23.7%), which is straining control-plane authentication and session management services.\\n\\n---\\n\\n## 2. Supporting Evidence *(Facts)*\\n* **UPF Node Status:** Explicitly reported as `DEGRADED`, while control-plane nodes (`AMF` and `SMF`) remain `HEALTHY`. This isolates the failure to the data-plane forwarding and policy implementation layer.\\n* **Network Performance Metrics:** \\n  * Packet Drop Rate: `16.4%` (significantly above normal operating thresholds).\\n  * Latency: `184 ms` (a 10x increase over the `18 ms` baseline).\\n* **Policy Version Mismatch:** The system is currently running UPF policy version `2026.08.20-rc2`, whereas the last known stable version is `2026.08.13-stable`.\\n* **Security Indicators:** Source IP `10.44.8.91` is flagged as suspicious and is currently **not isolated** (`suspicious_source_isolated: false`). \\n* **Authentication Impact:** Authentication failure rate has spiked to `23.7%`, correlating with the suspicious endpoint activity.\\n\\n---\\n\\n## 3. Confidence Level\\n* **Confidence:** **High (Tier-1)**\\n* *Justification:* The combination of direct telemetry showing data-plane degradation (`UPF_STATUS = DEGRADED`), a clear version regression (`2026.08.20-rc2`), and a flagged unisolated source IP (`10.44.8.91`) points directly to the identified remediation vectors.\\n\\n---\\n\\n## 4. Alternative Hypotheses\\n* **Hypothesis A (Pure Hardware Fault):** The UPF node's underlying compute or network interface card (NIC) is failing. \\n  * *Disproof:* Control plane health (`AMF`/`SMF`) and the direct correlation with a newly deployed release candidate policy version (`2026.08.20-rc2`) make a software/configuration regression far more probable than coincidental hardware failure.\\n* **Hypothesis B (Distributed Denial of Service / DDoS):** The high packet drop and latency are entirely caused by a volumetric attack from multiple external sources.\\n  * *Disproof:* Telemetry specifically isolates a single suspicious source IP (`10.44.8.91`) alongside a specific policy version change, rather than generalized volumetric flooding across external interfaces.\\n\\n---\\n\\n## 5. Relationship Between Configuration Changes and Degradation\\nThe deployment of UPF policy version `2026.08.20-rc2` introduced destabilizing handling rules for data-plane traffic. Release candidates (`-rc2`) inherently carry higher regression risks. In this incident, the new policy rules appear to improperly process or inspect packets\u2014potentially interacting poorly with traffic originating from or interacting with endpoint `10.44.8.91`\u2014leading to queue congestion, excessive processing delays (184 ms latency), and dropped packets (16.4%).\\n\\n---\\n\\n## 6. Significance of Suspicious Authentication Activity\\nThe 23.7% authentication failure rate combined with suspicious source IP `10.44.8.91` (which is currently not isolated) indicates potential malicious activity, unauthorized access attempts, or a compromised client device hammering the private 5G core. This excess control/authentication signaling degrades overall network responsiveness and contributes to the broader service degradation observed at Enterprise Factory Alpha.\\n\\n---\\n\\n## 7. Recommended Remediation Actions\\n*(Note: As per operational constraints, execution is not performed by this agent; these actions are queued for authorized orchestration/remediation agents.)*\\n\\n1. **Isolate Suspicious Endpoint:** Immediately isolate source IP `10.44.8.91` at the network/policy level to halt unauthorized authentication attempts and potential attack traffic.\\n2. **Rollback UPF Policy:** Revert the User Plane Function policy configuration from version `2026.08.20-rc2` back to the stable baseline version `2026.08.13-stable`.\\n3. **Post-Remediation Verification:** Monitor telemetry metrics to ensure:\\n   * UPF status returns to `HEALTHY`.\\n   * Packet drop percentage normalizes (< 1%).\\n   * Latency returns to baseline (~18 ms).\\n   * Authentication failure rate drops to normal baseline levels.\"}}, {\"author\": \"security_policy_agent\", \"content\": {\"parts\": [{\"text\": \"# SovereignOps Security & Policy Agent Audit Report: INC-5G-001\\n\\n**Agent:** SovereignOps Security and Policy Agent (`security_policy_agent`)  \\n**Incident ID:** INC-5G-001  \\n**Site:** Enterprise Factory Alpha  \\n**Status:** AUDITED / COMPLIANT  \\n\\n---\\n\\n## 1. AUTHORIZED ACTIONS\\nBased on incident telemetry, the investigation findings, and mandatory SovereignOps policies (**P1**, **P2**, **P3**, **P5**, **P6**), the following actions are formally authorized for execution within the synthetic sandbox environment:\\n1. **Isolate Suspicious Source IP (`10.44.8.91`):** Authorized under Policy **P1** (suspicious sources exhibiting repeated authentication failures may be isolated) and Policy **P5** (security protection takes precedence over performance optimization).\\n2. **Rollback UPF Policy Version:** Authorized under Policy **P2** (recently deployed network policy may be rolled back when strong evidence links it to service degradation) to revert from `2026.08.20-rc2` to the stable baseline `2026.08.13-stable`.\\n3. **Synthetic Verification & Monitoring:** Authorized under Policy **P3** to perform synthetic post-remediation health checks verifying that UPF status returns to `HEALTHY`, packet drop drops below 1%, latency normalizes to baseline (~18 ms), and authentication failure rates normalize.\\n\\n---\\n\\n## 2. PROHIBITED ACTIONS\\nTo maintain security, privacy, and operational integrity, the following actions are strictly prohibited and blocked by this policy gate:\\n* **Production Raw Data Exposure:** Any exposure of subscriber private information, active user credentials, internal secrets, or raw payload data (prohibited under Policy **P4**).\\n* **Unsandboxed Execution:** Any execution against live non-synthetic physical infrastructure outside the designated SovereignOps sandbox (prohibited under Policy **P3**).\\n* **Unverified Policy Retention:** Maintaining the unstable release candidate policy version `2026.08.20-rc2` once correlated with active data-plane degradation (prohibited under Policy **P5**).\\n\\n---\\n\\n## 3. SECURITY JUSTIFICATION\\n* **Precedence of Security (P5):** The elevated authentication failure rate (23.7%) combined with an unisolated suspicious endpoint (`10.44.8.91`) presents an active security and operational risk. Isolating the endpoint takes immediate precedence over performance tuning.\\n* **Evidence-Based Remediation (P1 & P2):** Telemetry definitively links UPF node degradation (`UPF_STATUS = DEGRADED`, packet drop 16.4%, latency 184 ms) to the active policy version `2026.08.20-rc2`. Reverting to `2026.08.13-stable` directly addresses the root cause identified in the investigation report.\\n\\n---\\n\\n## 4. SOVEREIGNTY / COMPLIANCE ASSESSMENT\\n* **Policy Compliance Status:** **FULLY COMPLIANT**\\n* **Audit Trail (P6):** All telemetry states, hypothesis evaluations, and remediation decisions are fully logged and auditable within the SovereignOps agent pipeline.\\n* **Sandbox Confinement (P3):** All simulated orchestration tasks operate strictly within authorized synthetic sandbox boundaries.\\n* **Data Privacy (P4):** Zero subscriber secrets, credentials, or sensitive payloads were accessed or exposed during triage and investigation.\\n\\n---\\n\\n## 5. PRODUCTION HUMAN-APPROVAL REQUIREMENTS\\nWhile automated synthetic remediation is permitted within the sandbox environment under Policy **P3**, transition to production enforcement at Enterprise Factory Alpha requires:\\n1. **Human-in-the-Loop Sign-off:** Formal authorization from the Site Reliability Engineering (SRE) Lead and Enterprise Security Officer.\\n2. **Change Management Ticket:** Linking of incident INC-5G-001 to an approved emergency change window for policy rollback and endpoint isolation.\\n3. **Post-Change Attestation:** Verification sign-off confirming that post-remediation telemetry metrics have sustained baseline performance for a minimum observation window of 30 minutes.\"}], \"role\": \"model\"}, \"event_time\": \"2026-08-29T17:12:51.132674Z\", \"state_delta\": {\"policy_result\": \"# SovereignOps Security & Policy Agent Audit Report: INC-5G-001\\n\\n**Agent:** SovereignOps Security and Policy Agent (`security_policy_agent`)  \\n**Incident ID:** INC-5G-001  \\n**Site:** Enterprise Factory Alpha  \\n**Status:** AUDITED / COMPLIANT  \\n\\n---\\n\\n## 1. AUTHORIZED ACTIONS\\nBased on incident telemetry, the investigation findings, and mandatory SovereignOps policies (**P1**, **P2**, **P3**, **P5**, **P6**), the following actions are formally authorized for execution within the synthetic sandbox environment:\\n1. **Isolate Suspicious Source IP (`10.44.8.91`):** Authorized under Policy **P1** (suspicious sources exhibiting repeated authentication failures may be isolated) and Policy **P5** (security protection takes precedence over performance optimization).\\n2. **Rollback UPF Policy Version:** Authorized under Policy **P2** (recently deployed network policy may be rolled back when strong evidence links it to service degradation) to revert from `2026.08.20-rc2` to the stable baseline `2026.08.13-stable`.\\n3. **Synthetic Verification & Monitoring:** Authorized under Policy **P3** to perform synthetic post-remediation health checks verifying that UPF status returns to `HEALTHY`, packet drop drops below 1%, latency normalizes to baseline (~18 ms), and authentication failure rates normalize.\\n\\n---\\n\\n## 2. PROHIBITED ACTIONS\\nTo maintain security, privacy, and operational integrity, the following actions are strictly prohibited and blocked by this policy gate:\\n* **Production Raw Data Exposure:** Any exposure of subscriber private information, active user credentials, internal secrets, or raw payload data (prohibited under Policy **P4**).\\n* **Unsandboxed Execution:** Any execution against live non-synthetic physical infrastructure outside the designated SovereignOps sandbox (prohibited under Policy **P3**).\\n* **Unverified Policy Retention:** Maintaining the unstable release candidate policy version `2026.08.20-rc2` once correlated with active data-plane degradation (prohibited under Policy **P5**).\\n\\n---\\n\\n## 3. SECURITY JUSTIFICATION\\n* **Precedence of Security (P5):** The elevated authentication failure rate (23.7%) combined with an unisolated suspicious endpoint (`10.44.8.91`) presents an active security and operational risk. Isolating the endpoint takes immediate precedence over performance tuning.\\n* **Evidence-Based Remediation (P1 & P2):** Telemetry definitively links UPF node degradation (`UPF_STATUS = DEGRADED`, packet drop 16.4%, latency 184 ms) to the active policy version `2026.08.20-rc2`. Reverting to `2026.08.13-stable` directly addresses the root cause identified in the investigation report.\\n\\n---\\n\\n## 4. SOVEREIGNTY / COMPLIANCE ASSESSMENT\\n* **Policy Compliance Status:** **FULLY COMPLIANT**\\n* **Audit Trail (P6):** All telemetry states, hypothesis evaluations, and remediation decisions are fully logged and auditable within the SovereignOps agent pipeline.\\n* **Sandbox Confinement (P3):** All simulated orchestration tasks operate strictly within authorized synthetic sandbox boundaries.\\n* **Data Privacy (P4):** Zero subscriber secrets, credentials, or sensitive payloads were accessed or exposed during triage and investigation.\\n\\n---\\n\\n## 5. PRODUCTION HUMAN-APPROVAL REQUIREMENTS\\nWhile automated synthetic remediation is permitted within the sandbox environment under Policy **P3**, transition to production enforcement at Enterprise Factory Alpha requires:\\n1. **Human-in-the-Loop Sign-off:** Formal authorization from the Site Reliability Engineering (SRE) Lead and Enterprise Security Officer.\\n2. **Change Management Ticket:** Linking of incident INC-5G-001 to an approved emergency change window for policy rollback and endpoint isolation.\\n3. **Post-Change Attestation:** Verification sign-off confirming that post-remediation telemetry metrics have sustained baseline performance for a minimum observation window of 30 minutes.\"}}, {\"author\": \"remediation_agent\", \"content\": {\"parts\": [{\"function_call\": {\"id\": \"call_108832\", \"args\": {\"action\": \"isolate_suspicious_source\"}, \"name\": \"execute_sandbox_remediation\"}}], \"role\": \"model\"}, \"event_time\": \"2026-08-29T17:12:54.687892Z\"}, {\"author\": \"remediation_agent\", \"content\": {\"parts\": [{\"function_response\": {\"id\": \"call_108832\", \"name\": \"execute_sandbox_remediation\", \"response\": {\"status\": \"EXECUTED\", \"sandbox\": true, \"action\": \"isolate_suspicious_source\", \"current_state\": {\"incident_id\": \"INC-5G-001\", \"site\": \"Enterprise Factory Alpha\", \"status\": \"ACTIVE\", \"latency_ms\": 184, \"baseline_latency_ms\": 18, \"packet_drop_pct\": 16.4, \"authentication_failure_pct\": 0.6, \"upf_policy_version\": \"2026.08.20-rc2\", \"previous_upf_policy_version\": \"2026.08.13-stable\", \"suspicious_source_ip\": \"10.44.8.91\", \"suspicious_source_isolated\": true, \"amf_status\": \"HEALTHY\", \"smf_status\": \"HEALTHY\", \"upf_status\": \"DEGRADED\", \"actions\": [\"isolate_suspicious_source\"]}}}}], \"role\": \"user\"}, \"event_time\": \"2026-08-29T17:12:56.990880Z\"}, {\"author\": \"remediation_agent\", \"content\": {\"parts\": [{\"function_call\": {\"id\": \"call_236109\", \"args\": {\"action\": \"rollback_upf_policy\"}, \"name\": \"execute_sandbox_remediation\"}}], \"role\": \"model\"}, \"event_time\": \"2026-08-29T17:12:56.997899Z\"}, {\"author\": \"remediation_agent\", \"content\": {\"parts\": [{\"function_response\": {\"id\": \"call_236109\", \"name\": \"execute_sandbox_remediation\", \"response\": {\"status\": \"EXECUTED\", \"sandbox\": true, \"action\": \"rollback_upf_policy\", \"current_state\": {\"incident_id\": \"INC-5G-001\", \"site\": \"Enterprise Factory Alpha\", \"status\": \"ACTIVE\", \"latency_ms\": 24, \"baseline_latency_ms\": 18, \"packet_drop_pct\": 0.8, \"authentication_failure_pct\": 0.6, \"upf_policy_version\": \"2026.08.13-stable\", \"previous_upf_policy_version\": \"2026.08.13-stable\", \"suspicious_source_ip\": \"10.44.8.91\", \"suspicious_source_isolated\": true, \"amf_status\": \"HEALTHY\", \"smf_status\": \"HEALTHY\", \"upf_status\": \"HEALTHY\", \"actions\": [\"isolate_suspicious_source\", \"rollback_upf_policy\"]}}}}], \"role\": \"user\"}, \"event_time\": \"2026-08-29T17:12:59.080025Z\"}, {\"author\": \"remediation_agent\", \"content\": {\"parts\": [{\"text\": \"# SovereignOps Remediation Execution Report: INC-5G-001\\n\\n**Agent:** SovereignOps Remediation Agent (`remediation_agent`)  \\n**Incident ID:** INC-5G-001  \\n**Site:** Enterprise Factory Alpha  \\n**Status:** REMEDIATED & VERIFIED  \\n\\n---\\n\\n## 1. ACTIONS EXECUTED\\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`)\\n2. `rollback_upf_policy` (Target Policy: Reverted from `2026.08.20-rc2` to `2026.08.13-stable`)\\n\\n---\\n\\n## 2. TOOL RESULTS\\n* **`isolate_suspicious_source`**: Successfully executed in the sandbox environment. Telemetry confirmed `suspicious_source_isolated: true` and a significant drop in authentication failure rate (`23.7%` -> `0.6%`).\\n* **`rollback_upf_policy`**: Successfully executed in the sandbox environment. Telemetry confirmed `upf_policy_version` successfully reverted to `2026.08.13-stable`, returning `upf_status` to `HEALTHY`, dropping packet loss to `0.8%`, and normalizing latency to `24 ms` (near baseline `18 ms`).\\n\\n---\\n\\n## 3. ACTIONS SKIPPED\\n* `restart_upf_service`: Skipped because isolating the suspicious source IP and rolling back the faulty UPF policy version successfully restored the UPF node to a `HEALTHY` state without requiring a full service restart.\\n\\n---\\n\\n## 4. REASON FOR EACH ACTION\\n* **`isolate_suspicious_source`**: Authorized under SovereignOps Policy **P1** and **P5** to halt anomalous control-plane signaling and authentication failures (23.7%) originating from unverified endpoint `10.44.8.91`.\\n* **`rollback_upf_policy`**: Authorized under SovereignOps Policy **P2** to eliminate data-plane regression introduced by unstable release candidate `2026.08.20-rc2`, resolving high packet loss (16.4%) and latency spikes (184 ms).\\n\\n---\\n\\n## 5. EXPECTED RECOVERY STATE\\n* **UPF Status:** `HEALTHY`\\n* **Packet Drop Percentage:** `< 1.0%` (Observed: `0.8%`)\\n* **Latency:** Near baseline (~18\u201324 ms; Observed: `24 ms`)\\n* **Authentication Failure Rate:** Normal baseline levels (`0.6%`)\\n* **Security Posture:** Suspicious source IP `10.44.8.91` fully isolated (`suspicious_source_isolated: true`).\"}], \"role\": \"model\"}, \"event_time\": \"2026-08-29T17:12:59.087563Z\", \"state_delta\": {\"remediation_result\": \"# SovereignOps Remediation Execution Report: INC-5G-001\\n\\n**Agent:** SovereignOps Remediation Agent (`remediation_agent`)  \\n**Incident ID:** INC-5G-001  \\n**Site:** Enterprise Factory Alpha  \\n**Status:** REMEDIATED & VERIFIED  \\n\\n---\\n\\n## 1. ACTIONS EXECUTED\\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`)\\n2. `rollback_upf_policy` (Target Policy: Reverted from `2026.08.20-rc2` to `2026.08.13-stable`)\\n\\n---\\n\\n## 2. TOOL RESULTS\\n* **`isolate_suspicious_source`**: Successfully executed in the sandbox environment. Telemetry confirmed `suspicious_source_isolated: true` and a significant drop in authentication failure rate (`23.7%` -> `0.6%`).\\n* **`rollback_upf_policy`**: Successfully executed in the sandbox environment. Telemetry confirmed `upf_policy_version` successfully reverted to `2026.08.13-stable`, returning `upf_status` to `HEALTHY`, dropping packet loss to `0.8%`, and normalizing latency to `24 ms` (near baseline `18 ms`).\\n\\n---\\n\\n## 3. ACTIONS SKIPPED\\n* `restart_upf_service`: Skipped because isolating the suspicious source IP and rolling back the faulty UPF policy version successfully restored the UPF node to a `HEALTHY` state without requiring a full service restart.\\n\\n---\\n\\n## 4. REASON FOR EACH ACTION\\n* **`isolate_suspicious_source`**: Authorized under SovereignOps Policy **P1** and **P5** to halt anomalous control-plane signaling and authentication failures (23.7%) originating from unverified endpoint `10.44.8.91`.\\n* **`rollback_upf_policy`**: Authorized under SovereignOps Policy **P2** to eliminate data-plane regression introduced by unstable release candidate `2026.08.20-rc2`, resolving high packet loss (16.4%) and latency spikes (184 ms).\\n\\n---\\n\\n## 5. EXPECTED RECOVERY STATE\\n* **UPF Status:** `HEALTHY`\\n* **Packet Drop Percentage:** `< 1.0%` (Observed: `0.8%`)\\n* **Latency:** Near baseline (~18\u201324 ms; Observed: `24 ms`)\\n* **Authentication Failure Rate:** Normal baseline levels (`0.6%`)\\n* **Security Posture:** Suspicious source IP `10.44.8.91` fully isolated (`suspicious_source_isolated: true`).\"}}, {\"author\": \"verification_agent\", \"content\": {\"parts\": [{\"function_call\": {\"id\": \"call_92767\", \"args\": {}, \"name\": \"read_sandbox_state\"}}], \"role\": \"model\"}, \"event_time\": \"2026-08-29T17:13:01.477653Z\"}, {\"author\": \"verification_agent\", \"content\": {\"parts\": [{\"function_response\": {\"id\": \"call_92767\", \"name\": \"read_sandbox_state\", \"response\": {\"recovered\": true, \"state\": {\"incident_id\": \"INC-5G-001\", \"site\": \"Enterprise Factory Alpha\", \"status\": \"RESOLVED\", \"latency_ms\": 24, \"baseline_latency_ms\": 18, \"packet_drop_pct\": 0.8, \"authentication_failure_pct\": 0.6, \"upf_policy_version\": \"2026.08.13-stable\", \"previous_upf_policy_version\": \"2026.08.13-stable\", \"suspicious_source_ip\": \"10.44.8.91\", \"suspicious_source_isolated\": true, \"amf_status\": \"HEALTHY\", \"smf_status\": \"HEALTHY\", \"upf_status\": \"HEALTHY\", \"actions\": [\"isolate_suspicious_source\", \"rollback_upf_policy\"]}, \"success_thresholds\": {\"latency_ms\": \"<= 30\", \"packet_drop_pct\": \"<= 1.0\", \"authentication_failure_pct\": \"<= 1.0\", \"upf_status\": \"HEALTHY\"}}}}], \"role\": \"user\"}, \"event_time\": \"2026-08-29T17:13:03.716318Z\"}, {\"author\": \"verification_agent\", \"content\": {\"parts\": [{\"text\": \"# SovereignOps Independent Verification and Audit Report: INC-5G-001\\n\\n## INCIDENT\\n- **Incident ID:** INC-5G-001\\n- **Site:** Enterprise Factory Alpha\\n- **Affected Services:** Enterprise Private 5G User Plane Function (UPF), Authentication and Session Management Services\\n\\n## SEVERITY\\n- **Initial Severity:** ACTIVE / DEGRADED\\n- **Post-Remediation Severity:** RESOLVED / HEALTHY\\n\\n## ROOT CAUSE\\nThe incident was caused by a dual-factor failure model:\\n1. **Configuration Regression:** The deployment of unstable UPF policy version `2026.08.20-rc2` introduced data-plane processing bottlenecks, leading to high packet drop (16.4%) and severe latency spikes (184 ms).\\n2. **Security Anomaly:** An unisolated suspicious client endpoint (`10.44.8.91`) generated excessive control-plane signaling and authentication failures (23.7%), compounding network degradation.\\n\\n## EVIDENCE\\nPost-remediation sandbox telemetry retrieved via `read_sandbox_state`:\\n- **UPF Status:** `HEALTHY` (recovered from `DEGRADED`)\\n- **Control Plane Status:** AMF (`HEALTHY`), SMF (`HEALTHY`)\\n- **Latency:** `24 ms` (well below the <= 30 ms threshold, close to 18 ms baseline)\\n- **Packet Drop Percentage:** `0.8%` (successfully below the <= 1.0% threshold)\\n- **Authentication Failure Rate:** `0.6%` (successfully below the <= 1.0% threshold)\\n- **UPF Policy Version:** Reverted and stable at `2026.08.13-stable`\\n- **Suspicious Source IP (`10.44.8.91`):** Isolated (`suspicious_source_isolated: true`)\\n\\n## POLICY DECISION\\nAll actions executed complied fully with SovereignOps mandatory policies:\\n- **P1 & P5:** Authorized isolation of suspicious source IP `10.44.8.91` to protect network integrity and security.\\n- **P2:** Authorized rollback of the UPF policy version from `2026.08.20-rc2` to `2026.08.13-stable` due to proven data-plane regression.\\n- **P3:** Confirmed that all execution and verification occurred strictly within authorized synthetic sandbox boundaries.\\n- **P4 & P6:** Maintained subscriber data privacy and ensured a fully audited operational trail.\\n\\n## ACTIONS EXECUTED\\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`) - Executed in the synthetic sandbox.\\n2. `rollback_upf_policy` (Target Policy: `2026.08.13-stable`) - Executed in the synthetic sandbox.\\n\\n## VERIFICATION RESULTS\\nIndependent verification via `read_sandbox_state` confirmed all recovery criteria were successfully met:\\n- Latency (`24 ms` <= 30 ms): **PASS**\\n- Packet drop (`0.8%` <= 1.0%): **PASS**\\n- Authentication failures (`0.6%` <= 1.0%): **PASS**\\n- UPF status (`HEALTHY`): **PASS**\\n\\n## FINAL STATUS\\n**RESOLVED**\\n\\n*(Note: All triage, investigation, policy evaluation, remediation, and verification actions occurred strictly within a controlled synthetic sandbox environment and not against live production infrastructure.)*\\n\\n## AUDIT TRAIL\\n- **Triage Agent:** Retrieved incident telemetry for INC-5G-001 at Enterprise Factory Alpha.\\n- **Investigation Agent:** Identified root-cause hypothesis combining policy version regression (`2026.08.20-rc2`) and unisolated suspicious endpoint (`10.44.8.91`).\\n- **Security & Policy Agent:** Audited and authorized remediation actions under SovereignOps policies P1, P2, P3, and P5.\\n- **Remediation Agent:** Executed endpoint isolation and UPF policy rollback in the sandbox.\\n- **Verification Agent:** Independently polled sandbox state (`read_sandbox_state`), verified all recovery thresholds, and generated this final audit report.\"}], \"role\": \"model\"}, \"event_time\": \"2026-08-29T17:13:03.723939Z\", \"state_delta\": {\"verification_result\": \"# SovereignOps Independent Verification and Audit Report: INC-5G-001\\n\\n## INCIDENT\\n- **Incident ID:** INC-5G-001\\n- **Site:** Enterprise Factory Alpha\\n- **Affected Services:** Enterprise Private 5G User Plane Function (UPF), Authentication and Session Management Services\\n\\n## SEVERITY\\n- **Initial Severity:** ACTIVE / DEGRADED\\n- **Post-Remediation Severity:** RESOLVED / HEALTHY\\n\\n## ROOT CAUSE\\nThe incident was caused by a dual-factor failure model:\\n1. **Configuration Regression:** The deployment of unstable UPF policy version `2026.08.20-rc2` introduced data-plane processing bottlenecks, leading to high packet drop (16.4%) and severe latency spikes (184 ms).\\n2. **Security Anomaly:** An unisolated suspicious client endpoint (`10.44.8.91`) generated excessive control-plane signaling and authentication failures (23.7%), compounding network degradation.\\n\\n## EVIDENCE\\nPost-remediation sandbox telemetry retrieved via `read_sandbox_state`:\\n- **UPF Status:** `HEALTHY` (recovered from `DEGRADED`)\\n- **Control Plane Status:** AMF (`HEALTHY`), SMF (`HEALTHY`)\\n- **Latency:** `24 ms` (well below the <= 30 ms threshold, close to 18 ms baseline)\\n- **Packet Drop Percentage:** `0.8%` (successfully below the <= 1.0% threshold)\\n- **Authentication Failure Rate:** `0.6%` (successfully below the <= 1.0% threshold)\\n- **UPF Policy Version:** Reverted and stable at `2026.08.13-stable`\\n- **Suspicious Source IP (`10.44.8.91`):** Isolated (`suspicious_source_isolated: true`)\\n\\n## POLICY DECISION\\nAll actions executed complied fully with SovereignOps mandatory policies:\\n- **P1 & P5:** Authorized isolation of suspicious source IP `10.44.8.91` to protect network integrity and security.\\n- **P2:** Authorized rollback of the UPF policy version from `2026.08.20-rc2` to `2026.08.13-stable` due to proven data-plane regression.\\n- **P3:** Confirmed that all execution and verification occurred strictly within authorized synthetic sandbox boundaries.\\n- **P4 & P6:** Maintained subscriber data privacy and ensured a fully audited operational trail.\\n\\n## ACTIONS EXECUTED\\n1. `isolate_suspicious_source` (Target IP: `10.44.8.91`) - Executed in the synthetic sandbox.\\n2. `rollback_upf_policy` (Target Policy: `2026.08.13-stable`) - Executed in the synthetic sandbox.\\n\\n## VERIFICATION RESULTS\\nIndependent verification via `read_sandbox_state` confirmed all recovery criteria were successfully met:\\n- Latency (`24 ms` <= 30 ms): **PASS**\\n- Packet drop (`0.8%` <= 1.0%): **PASS**\\n- Authentication failures (`0.6%` <= 1.0%): **PASS**\\n- UPF status (`HEALTHY`): **PASS**\\n\\n## FINAL STATUS\\n**RESOLVED**\\n\\n*(Note: All triage, investigation, policy evaluation, remediation, and verification actions occurred strictly within a controlled synthetic sandbox environment and not against live production infrastructure.)*\\n\\n## AUDIT TRAIL\\n- **Triage Agent:** Retrieved incident telemetry for INC-5G-001 at Enterprise Factory Alpha.\\n- **Investigation Agent:** Identified root-cause hypothesis combining policy version regression (`2026.08.20-rc2`) and unisolated suspicious endpoint (`10.44.8.91`).\\n- **Security & Policy Agent:** Audited and authorized remediation actions under SovereignOps policies P1, P2, P3, and P5.\\n- **Remediation Agent:** Executed endpoint isolation and UPF policy rollback in the sandbox.\\n- **Verification Agent:** Independently polled sandbox state (`read_sandbox_state`), verified all recovery thresholds, and generated this final audit report.\"}}]}]}"
+      }
+    ]
+  },
+  "agent_info": null
+}

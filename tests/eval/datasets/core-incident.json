@@ -1,0 +1,15 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "private_5g_incident_resolution",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Investigate incident INC-5G-001. Follow the complete SovereignOps policy-governed workflow, execute only authorized synthetic remediation, independently verify recovery, and provide the final audit report."
+          }
+        ]
+      }
+    }
+  ]
+}

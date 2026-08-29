@@ -1,10 +1,14 @@
 """SovereignOps AI - Autonomous multi-agent incident response prototype."""
 
+from copy import deepcopy
 from typing import TypedDict
 
 from google.adk.agents import Agent, SequentialAgent
+from google.adk.agents.callback_context import CallbackContext
 from google.adk.apps import App
 from google.adk.models import Gemini
+
+from app.audit_store import record_audit_event
 
 MODEL = "gemini-3.5-flash-lite"
 
@@ -33,7 +37,7 @@ class SandboxState(TypedDict):
 # SYNTHETIC PRIVATE 5G SANDBOX
 # ---------------------------------------------------------------------
 
-SANDBOX_STATE: SandboxState = {
+INITIAL_SANDBOX_STATE: SandboxState = {
     "incident_id": "INC-5G-001",
     "site": "Enterprise Factory Alpha",
     "status": "ACTIVE",
@@ -50,6 +54,14 @@ SANDBOX_STATE: SandboxState = {
     "upf_status": "DEGRADED",
     "actions": [],
 }
+SANDBOX_STATE: SandboxState = deepcopy(INITIAL_SANDBOX_STATE)
+
+
+async def reset_sandbox_state(callback_context: CallbackContext) -> None:
+    """Start every workflow run from the same deterministic sandbox state."""
+    SANDBOX_STATE.clear()
+    SANDBOX_STATE.update(deepcopy(INITIAL_SANDBOX_STATE))
+    callback_context.state["incident_id"] = SANDBOX_STATE["incident_id"]
 
 
 def get_incident_telemetry(incident_id: str) -> dict:
@@ -71,7 +83,14 @@ def get_incident_telemetry(incident_id: str) -> dict:
             "requested_incident_id": incident_id,
         }
 
-    return dict(SANDBOX_STATE)
+    telemetry = dict(SANDBOX_STATE)
+    record_audit_event(
+        incident_id,
+        "incident_observed",
+        telemetry,
+        status=telemetry["status"],
+    )
+    return telemetry
 
 
 def execute_sandbox_remediation(action: str) -> dict:
@@ -123,6 +142,13 @@ def execute_sandbox_remediation(action: str) -> dict:
 
     SANDBOX_STATE["actions"].append(action)
 
+    record_audit_event(
+        SANDBOX_STATE["incident_id"],
+        "remediation_executed",
+        {"action": action, "current_state": dict(SANDBOX_STATE)},
+        status=SANDBOX_STATE["status"],
+    )
+
     return {
         "status": "EXECUTED",
         "sandbox": True,
@@ -148,7 +174,7 @@ def read_sandbox_state() -> dict:
     if recovered:
         SANDBOX_STATE["status"] = "RESOLVED"
 
-    return {
+    verification = {
         "recovered": recovered,
         "state": dict(SANDBOX_STATE),
         "success_thresholds": {
@@ -158,6 +184,14 @@ def read_sandbox_state() -> dict:
             "upf_status": "HEALTHY",
         },
     }
+    record_audit_event(
+        SANDBOX_STATE["incident_id"],
+        "verification_completed",
+        verification,
+        status=SANDBOX_STATE["status"],
+    )
+
+    return verification
 
 
 # ---------------------------------------------------------------------
@@ -170,6 +204,7 @@ triage_agent = Agent(
     model=Gemini(model=MODEL),
     description="Observes and triages a private 5G incident.",
     tools=[get_incident_telemetry],
+    before_agent_callback=reset_sandbox_state,
     output_key="triage_result",
     instruction="""
 You are the SovereignOps Triage Agent.
