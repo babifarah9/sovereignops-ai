@@ -291,8 +291,7 @@ artifacts/grade_results/     verified local evaluation reports
 - Cloud Run scales to zero and is capped at two instances.
 - No load generator or recurring event publisher is required.
 
-## License and disclosure
+## License
 
-This repository was scaffolded with Google `agents-cli` and developed with
-AI-assisted coding tools. Add the final license and any additional disclosure
-required by the submission rules before reuse outside the hackathon.
+SovereignOps AI is available under the [MIT License](LICENSE). Components that
+retain an upstream license header remain subject to that license.
